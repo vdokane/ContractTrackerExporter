@@ -5,7 +5,12 @@ VisualStudioVersion = 17.1.32228.430
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileExporter", "FileExporter\FileExporter.csproj", "{415D6252-2FA6-4353-82ED-2629775B88D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContractTracker.Repository", "ContractTracker.Repository\ContractTracker.Repository.csproj", "{3191137C-A607-4AF3-B0BC-85D9AD64D2E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContractTracker.Repository", "ContractTracker.Repository\ContractTracker.Repository.csproj", "{3191137C-A607-4AF3-B0BC-85D9AD64D2E6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7BC8B1F8-1035-483D-B4CA-54E466519E5F}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
