@@ -1,6 +1,12 @@
 ﻿// See https://aka.ms/new-console-template for more information
+using ContractTracker.Repository.Implementation;
 using FileExporter.ExportModels;
+using FileExporter.Factory;
 using FileExporter.Services;
+using System.Text;
+
+const bool useMock = true;
+DateTime today = DateTime.Today; //TODO, use param 
 
 Console.WriteLine("Starting to export!");
 var seeder = new Seeder();
@@ -8,30 +14,101 @@ var seeder = new Seeder();
 //var budgetLineItems = seeder.SeedBudgets();
 //C:\Users\vdoka\source\repos\FileExporter\FileExporter\file
 
-string[] lines = { "First line", "Second line", "Third line" };
-const string newLine = "--------";
+//TODO, this needs to be in appsettings and/or a comman line arg
 // Set a variable to the Documents path.
-string docPath = @"C:\Users\vdoka\source\repos\FileExporter\FileExporter\file";
+const string docPath = @"C:\Users\vdoka\source\repos\FileExporter\FileExporter\file";
+//"Data Source=.;Initial Catalog=Tracker;Integrated Security=True"
 
-var contractExportService = new ContractExportService();
-var budgetExportService = new BudgetExportService();
-// Write the string array to a new file named "WriteLines.txt".
-using (StreamWriter outputFile = new StreamWriter(Path.Combine(docPath, "Sample1.csv")))
+var databaseConnectionString = "Data Source=.;Initial Catalog=Tracker;Integrated Security=True"; //TODO webHostEnvironment.GetDataBaseConnectionString();
+var _uowFactory = new UowFactory(databaseConnectionString);
+using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
 {
-    var allContractsReadyToExport = contractExportService.GetContractsForExporting();
-    foreach (var contractModel in allContractsReadyToExport)
-    {
-        Console.WriteLine($"Exporting Contract: {contractModel.ContractName}");
-        //TODO, do I want to use CsvHelper to parse or build it in the service?
-        outputFile.WriteLine(contractModel.ContractName);
-        outputFile.WriteLine(newLine);
-        var allBudgetRecordsForContract = budgetExportService.GetBudgetModelsByContractId(contractModel.ContractId);
-        foreach(var budgetRecord in allBudgetRecordsForContract)
-        {
-            outputFile.WriteLine(budgetRecord.BudgetDesc);
-        }
-        outputFile.WriteLine(newLine);
+    var businessServiceFactory = new ServiceFactory(uow);
+    var contractService = businessServiceFactory.BuildContractExportService(useMock);
+    var documentAttachmentService = businessServiceFactory.BuildDocumentAttachmentService(useMock);
+    var budgetExportService = businessServiceFactory.BuildBudgetExportService(useMock);
+    var vendorExportService = businessServiceFactory.BuildVendorExportService();
+    var deliverableExportService = businessServiceFactory.BuildDeliverableExportService(useMock);
+    var contractChangeExportService = businessServiceFactory.BuildContractChangeExportService(useMock);
+    var contractChangeAttachmentExportService = businessServiceFactory.BuildContractChangeAttachmentExportService(useMock);
 
+    //Do work starts here
+    var allContractsReadyToExport = await contractService.GetContractsForExporting(today);
+
+    //This should probably come from a config
+    var fileName = new StringBuilder("Sample_Export_").Append(today.ToString()).ToString();
+   
+    using (StreamWriter outputFile = new StreamWriter(Path.Combine(docPath, fileName)))
+    {
+        foreach (var contractModel in allContractsReadyToExport)
+        {
+            Console.WriteLine($"Writing contract {contractModel.ContractNumber} to output file!");
+
+            //Main contract record
+            var contractLine = contractService.BuildContractRow(contractModel);
+            outputFile.WriteLine(contractLine);
+
+            //Budget
+            var allBudgetRecordsForContract = await budgetExportService.GetBudgetModelsByContractId(contractModel.ContractId);
+            foreach (var budgetRecord in allBudgetRecordsForContract)
+            {
+                outputFile.WriteLine(budgetExportService.BuildBudgetRow(budgetRecord));
+            }
+
+            //Vendor
+            outputFile.WriteLine(vendorExportService.BuildVendorRow(contractModel));
+
+            //Deliverables
+            var allDeliverablesForContract = await deliverableExportService.GetDeliverableModelsByContractId(contractModel.ContractId);
+            foreach(var deliveryable in allDeliverablesForContract)
+            {
+                outputFile.WriteLine(deliverableExportService.BuildDeliverableRow(deliveryable));
+            }
+
+
+            //Contract Changes
+            var contractChanges = await contractChangeExportService.GetChangesForExport(contractModel.ContractId);
+            foreach(var contractChange in contractChanges)
+            {
+                outputFile.WriteLine(contractChangeExportService.BuildContractChangeRow(contractChange));
+            }
+
+            //Contract Attachments
+            var attachments = documentAttachmentService.GetAllDocumentsByDocumentId(contractModel.DocumentID);
+            foreach (var attachment in attachments)
+            {
+                //crap...sorta work. Also, should this go in the using for the output file? 2023/01/02
+                var fileNameAndpath = docPath + @"\" + attachment.AttachmentFileName;
+                File.WriteAllBytes(fileNameAndpath, attachment.Attachment);
+            }
+
+
+            //ContractChange Attachments
+            foreach (var contractChange in contractChanges)
+            {
+                 //TODO, what other data do these files need/naming, etc? 
+                var orginainlContractChangeAttachmentDocument = await contractChangeAttachmentExportService.GetOriginalContractChangeAttachmentExportModel(contractChange.ContractChangeID);
+                if (orginainlContractChangeAttachmentDocument == null)
+                    continue;
+
+                var redactedContractChangeAttachmentDocument
+                     = await contractChangeAttachmentExportService.GetRedactedContractChangeAttachmentExportModelById(orginainlContractChangeAttachmentDocument.ContractChangeAttachmentId);
+
+                var fileNameAndpathOriginal = docPath + @"\" + orginainlContractChangeAttachmentDocument.AttachmentFilename;
+                File.WriteAllBytes(fileNameAndpathOriginal, orginainlContractChangeAttachmentDocument.Attachment);
+
+                if (redactedContractChangeAttachmentDocument == null)
+                    continue;
+
+                var fileNameAndpathRedact = docPath + @"\" + redactedContractChangeAttachmentDocument.AttachmentFilename;
+                File.WriteAllBytes(fileNameAndpathRedact, redactedContractChangeAttachmentDocument.Attachment);
+            }
+        }
     }
-    Console.WriteLine($"Done");
+
 }
+
+
+ 
+Console.WriteLine($"Done");
+ 
