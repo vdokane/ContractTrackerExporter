@@ -23,7 +23,7 @@ namespace ContractTracker.Repository.Context
         public DbSet<UserUnits> UserUnits => Set<UserUnits>();
         public DbSet<UserRoles> UserRoles => Set<UserRoles>();
         public DbSet<delete_AmendmentAttachments> AmendmentAttachments => Set<delete_AmendmentAttachments>();
-        public DbSet<Delete_Amendments> Amendments => Set<Delete_Amendments>();
+   
         public DbSet<Announcements> Announcements => Set<Announcements>();
         public DbSet<Units> Units => Set<Units>();
         public DbSet<AttachmentTypes> AttachmentTypes => Set<AttachmentTypes>();
@@ -45,5 +45,7 @@ namespace ContractTracker.Repository.Context
         public DbSet<DocumentAttachments> DocumentAttachments => Set<DocumentAttachments>();
         public DbSet<ContractChange> ContractChange => Set<ContractChange>();
         public DbSet<ContractChangeAttachments> ContractChangeAttachments => Set<ContractChangeAttachments>();
+
+        public DbSet<ContractTrackingHistory> ContractTrackingHistory => Set<ContractTrackingHistory>();
     }
 }

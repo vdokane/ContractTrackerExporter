@@ -21,7 +21,7 @@ namespace ContractTracker.Repository.QueryRepositories
             context = unitOfWork.GetContext();
         }
 
-        public async Task<DocumentAttachments> GetOriginalContract(int documentId)
+        public async Task<DocumentAttachments?> GetOriginalContract(int documentId)
         {
             return await context.DocumentAttachments
                 .Where(x => x.DocumentId == documentId && x.DocAttachmentTypeID == OriginalContractDocAttachmentTypeId)
@@ -29,7 +29,7 @@ namespace ContractTracker.Repository.QueryRepositories
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<DocumentAttachments> GetOriginalRedactedContract(int documentId)
+        public async Task<DocumentAttachments?> GetOriginalRedactedContract(int documentId)
         {
             return await context.DocumentAttachments
                 .Where(x => x.DocumentId == documentId && x.DocAttachmentTypeID == OriginalRedactedContractDocAttachmentTypeId)

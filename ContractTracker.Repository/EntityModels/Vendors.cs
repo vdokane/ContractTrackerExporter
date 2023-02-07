@@ -7,19 +7,19 @@ namespace ContractTracker.Repository.EntityModels
     {
         [Key]
         public int VendorId { get; set; }
-        public string VendorType { get; set; }
-        public string VendorNumber { get; set; }
-        public string SequenceNumber { get; set; }
-        public string PurchasingNameLine1 { get; set; }
-        public string PurchasingNameLine2 { get; set; }
-        public string ShortName { get; set; }
-        public string PurchasingAddressLine1 { get; set; }
-        public string PurchasingAddressLine2 { get; set; }
-        public string PurchasingAddressLine3 { get; set; }
-        public string PurchasingCity { get; set; }
-        public string PurchasingState { get; set; }
-        public string PurchasingZipCode { get; set; }
-        public string PurchasingCountry { get; set; }
+        public string VendorType { get; set; } = string.Empty;
+        public string VendorNumber { get; set; } = string.Empty;
+        public string SequenceNumber { get; set; } = string.Empty;
+        public string PurchasingNameLine1 { get; set; } = string.Empty;
+        public string PurchasingNameLine2 { get; set; } = string.Empty;
+        public string ShortName { get; set; } = string.Empty;
+        public string PurchasingAddressLine1 { get; set; } = string.Empty;
+        public string PurchasingAddressLine2 { get; set; } = string.Empty;
+        public string PurchasingAddressLine3 { get; set; } = string.Empty;
+        public string PurchasingCity { get; set; } = string.Empty;
+        public string PurchasingState { get; set; } = string.Empty;
+        public string PurchasingZipCode { get; set; } = string.Empty;
+        public string PurchasingCountry { get; set; } = string.Empty;
         public string RemittanceAddressLine1 { get; set; }
         public string RemittanceAddressLine2 { get; set; }
         public string RemittanceAddressLine3 { get; set; }

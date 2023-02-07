@@ -12,10 +12,10 @@ namespace FileExporter.Services
             this.documentQueryRepository = documentQueryRepository;
         }
 
-        public List<DocumentModel> GetAllDocumentsByDocumentId(int documentId)
+        public async Task<List<DocumentModel>> GetAllDocumentsByDocumentId(int documentId)
         {
-            var contractAttachmeent = documentQueryRepository.GetOriginalContract(documentId);
-            var redactedContractAttachment = documentQueryRepository.GetOriginalRedactedContract(documentId);
+            var contractAttachmeent = await documentQueryRepository.GetOriginalContract(documentId);
+            var redactedContractAttachment = await documentQueryRepository.GetOriginalRedactedContract(documentId);
 
             var response = new List<DocumentModel>();
             response.Add(MapEntityToModel(contractAttachmeent));
@@ -23,7 +23,7 @@ namespace FileExporter.Services
             return response;
         }
 
-        private DocumentModel MapEntityToModel(DocumentAttachments entity)
+        private DocumentModel MapEntityToModel(DocumentAttachments? entity)
         {
             var model = new DocumentModel();
             model.Attachment = entity.Attachment;

@@ -4,11 +4,16 @@ using FileExporter.ExportModels;
 using FileExporter.Factory;
 using FileExporter.Services;
 using System.Text;
+using Microsoft.Extensions.Configuration; //Install this from NuGet: Microsoft.Extensions.Configuration and Microsoft.Extensions.Configuration.Json
 
-const bool useMock = true;
+const bool useMock = false;
 DateTime today = DateTime.Today; //TODO, use param 
 
 Console.WriteLine("Starting to export!");
+
+
+var configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json").Build();
+var connectionString = configuration.GetConnectionString("TrackerConnection");
 var seeder = new Seeder();
 //var contractModel = seeder.SeedContractModel();
 //var budgetLineItems = seeder.SeedBudgets();
@@ -19,8 +24,8 @@ var seeder = new Seeder();
 const string docPath = @"C:\Users\vdoka\source\repos\FileExporter\FileExporter\file";
 //"Data Source=.;Initial Catalog=Tracker;Integrated Security=True"
 
-var databaseConnectionString = "Data Source=.;Initial Catalog=Tracker;Integrated Security=True"; //TODO webHostEnvironment.GetDataBaseConnectionString();
-var _uowFactory = new UowFactory(databaseConnectionString);
+//var databaseConnectionString = "Data Source=.;Initial Catalog=Tracker;Integrated Security=True"; //TODO webHostEnvironment.GetDataBaseConnectionString();
+var _uowFactory = new UowFactory(connectionString);
 using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
 {
     var businessServiceFactory = new ServiceFactory(uow);
@@ -74,7 +79,7 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
             }
 
             //Contract Attachments
-            var attachments = documentAttachmentService.GetAllDocumentsByDocumentId(contractModel.DocumentID);
+            var attachments = await documentAttachmentService.GetAllDocumentsByDocumentId(contractModel.DocumentID);
             foreach (var attachment in attachments)
             {
                 //crap...sorta work. Also, should this go in the using for the output file? 2023/01/02
