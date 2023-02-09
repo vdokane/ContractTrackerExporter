@@ -15,11 +15,14 @@ namespace FileExporter.Services
     {
         private readonly IContractQueryRepository contractQueryRepository;
         private readonly IContractPersonQueryRepository contractPersonQueryRepository;
+        private readonly IContractTrackingHistoryQueryRepository contractTrackingHistoryQueryRepository;
         public ContractExportService(IContractQueryRepository contractQueryRepository,
-                                    IContractPersonQueryRepository contractPersonQueryRepository)
+                                    IContractPersonQueryRepository contractPersonQueryRepository,
+                                    IContractTrackingHistoryQueryRepository contractTrackingHistoryQueryRepository)
         {
             this.contractQueryRepository = contractQueryRepository;
             this.contractPersonQueryRepository = contractPersonQueryRepository;
+            this.contractTrackingHistoryQueryRepository = contractTrackingHistoryQueryRepository;
         }
 
         //Quesstions for Lucy- What criteria to make a contract get in the FTP file
@@ -28,7 +31,8 @@ namespace FileExporter.Services
         //How does Export Date get set? Like, how do we know a contract is finally uploaded correctly
         public async Task<List<ContractExportModel>> GetContractsForExporting(DateTime sweepDate)
         {
-            var allEntities = await contractQueryRepository.GetAllContractsReadyToBeSubmitted(sweepDate);
+            var allContractIds = await contractTrackingHistoryQueryRepository.GetAllContractIdsReadyForExporting(sweepDate);
+            var allEntities = await contractQueryRepository.GetAllContractsReadyToBeSubmitted(allContractIds);
 
             var response = new List<ContractExportModel>();
             foreach (var entity in allEntities)

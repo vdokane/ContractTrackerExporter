@@ -5,7 +5,7 @@ namespace ContractTracker.Repository.Interfaces
 {
     public interface IContractQueryRepository
     {
-        public Task<List<Contracts>> GetAllContractsReadyToBeSubmitted(DateTime sweepDate);
-         
+        public Task<List<Contracts>> GetAllContractsReadyToBeSubmitted(List<int> allContractIds);
+    
     }
 }

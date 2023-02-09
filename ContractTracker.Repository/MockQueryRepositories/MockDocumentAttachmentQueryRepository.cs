@@ -17,7 +17,7 @@ namespace ContractTracker.Repository.MockQueryRepositories
         }
 
         //todo make async
-        public async Task<DocumentAttachments> GetOriginalContract(int documentId)
+        public async Task<DocumentAttachments?> GetOriginalContract(int documentId)
         {
             return await Task.FromResult(new DocumentAttachments()
             {
@@ -33,7 +33,7 @@ namespace ContractTracker.Repository.MockQueryRepositories
             });
         }
 
-        public async Task<DocumentAttachments> GetOriginalRedactedContract(int documentId)
+        public async Task<DocumentAttachments?> GetOriginalRedactedContract(int documentId)
         {
             return await Task.FromResult(
                new DocumentAttachments()

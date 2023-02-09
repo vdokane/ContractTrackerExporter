@@ -11,7 +11,7 @@ namespace ContractTracker.Repository.MockQueryRepositories
     public class MockContractQueryRepository : IContractQueryRepository
     {
         public MockContractQueryRepository() { }
-        public async Task<List<Contracts>> GetAllContractsReadyToBeSubmitted(DateTime sweepDate)
+        public async Task<List<Contracts>> GetAllContractsReadyToBeSubmitted(List<int> allContractIds)
         {
             var allMockContracts = new List<Contracts>();
             allMockContracts.Add(new Contracts()

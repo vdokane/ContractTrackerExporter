@@ -19,20 +19,21 @@ namespace FileExporter.Factory
         {
             IContractQueryRepository contractQueryRepository;
             IContractPersonQueryRepository contractPersonQueryRepository;
+            IContractTrackingHistoryQueryRepository contractTrackingHistoryQueryRepository;
             if (useMock)
             {
                 contractQueryRepository = new MockContractQueryRepository();
                 contractPersonQueryRepository = new ContractPersonQueryRepository(unitOfWork); //TODO need a mock
-
-
+                contractTrackingHistoryQueryRepository = new ContractTrackingHistoryQueryRepository(unitOfWork);
             }
             else
             {
                 contractQueryRepository = new ContractQueryRepository(unitOfWork);
                 contractPersonQueryRepository = new ContractPersonQueryRepository(unitOfWork);
+                contractTrackingHistoryQueryRepository = new ContractTrackingHistoryQueryRepository(unitOfWork);
             }
 
-            return new ContractExportService(contractQueryRepository, contractPersonQueryRepository);
+            return new ContractExportService(contractQueryRepository, contractPersonQueryRepository, contractTrackingHistoryQueryRepository);
         }
 
         public DocumentAttachmentService BuildDocumentAttachmentService(bool useMock)
