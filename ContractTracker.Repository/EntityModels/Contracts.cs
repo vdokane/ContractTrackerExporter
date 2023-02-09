@@ -9,12 +9,75 @@ namespace ContractTracker.Repository.EntityModels
         [Key]
         public int ContractID { get; set; }
         public int DocumentID { get; set; }
-        public string ContractNum { get; set; } = string.Empty;
+        public DateTime? ContractStartDate { get; set; }
+        public DateTime? ContractExecuteDate { get; set; }
+        public DateTime? ContractAmmendedDate { get; set; } = null;
+
+        [Column(TypeName = "money")]
+        public decimal? Amount { get; set; }
+        public DateTime? TimeStamp { get; set; }
+        public DateTime? ContractEndDate { get; set; }
+        public bool? Recurring { get; set; }
+
+
+		public string VendorName { get; set; } = string.Empty;
+		public string ServiceType { get; set; } = string.Empty;
+		public string  ContractNum { get; set; } = string.Empty;
+		public decimal? HourlyRate { get; set; } 
+		public string Agency { get; set; } = string.Empty;
+		public string ContractTypeCode { get; set; } = string.Empty;
+		public bool? AuthorizedADPayment { get; set; }
+		public string StateTermContractIdentifier { get; set; } = string.Empty;
+		public string ExemptionExplanation { get; set; } = string.Empty;
+		public string ContractStatutoryAuthority { get; set; } = string.Empty;
+		public string GeneralComments { get; set; } = string.Empty;
+		public bool? ContractInvolveFinancialAid { get; set; }
+		public string RecipientTypeCode { get; set; } = string.Empty;
+		public bool? IndirectCostInd { get; set; } 
+		public string AdministrativeCostPercentage { get; set; } = string.Empty;
+		public bool? ProvidePeriodicIncrease { get; set; }
+		public decimal? PeriodicIncreasePercentage { get; set; }
+		public bool? BusinessCaseStudyDone { get; set; }
+		public DateTime? BusinessCaseDate { get; set; }
+		public LegalChallengesProcurement { get; set; } ???
+	public string LegalChallengeDescription { get; set; } = string.Empty;
+	public PreviouslyDoneByTheState][bit] NULL,
+	public ConsideredBackToTheState][bit] NULL,
+	public CapitalImprovementsOnStateProperty][bit] NULL,
+	public string CapitalImprovementDescription { get; set; } = string.Empty;
+	public ValueCapitalImprovements][numeric] (13, 2) NULL,
+	public ValueUnamortizedCapitalImprovements][numeric] (13, 2) NULL,
+	public string CSFA { get; set; } = string.Empty;
+	public string CFDA { get; set; } = string.Empty;
+	public DocumentId][int] NULL,
+	public FACTSResubmittedDate][datetime] NULL,
+	public string VendorNumber { get; set; } = string.Empty;
+	public string VendorNumberSequence { get; set; } = string.Empty;
+	public FACTSContractID][int] NULL,
+	public FLAIRContractID][varchar] (10) NULL,
+	public string ContractStatus { get; set; } = string.Empty;
+	public string RejectionMessage { get; set; } = string.Empty;
+	public string VendorType { get; set; } = string.Empty;
+	public string SweepStatus { get; set; } = string.Empty;
+	public ExistingContract][bit] NULL,
+	public ExportDate][datetime] NULL,
+	public MarkedForDeletion][bit] NULL,
+	public Confidential][bit] NULL,
+	public string InternalComments { get; set; } = string.Empty;
+	public ProcurementMethodID][int] NULL,
+	public SoleSourcePurchaseId][int] NULL,
+
+
+
+			/*
+
+			        [ForeignKey("ContractTypeID")]
+		public ContractTypes ContractTypes { get; set; } = null!;
+
+		public string ContractNum { get; set; } = string.Empty;
         public int? ContractTypeID { get; set; }
 
 
-        [ForeignKey("ContractTypeID")]
-        public ContractTypes ContractTypes { get; set; } = null!;
         //public int? VendorId { get; set; }
         public int? ContractApplicationId { get; set; }
         public string FLAIRContractId { get; set; } = string.Empty;
@@ -22,15 +85,11 @@ namespace ContractTracker.Repository.EntityModels
 
         [ForeignKey("ProcurementMethodID")]
         public ProcurementMethods ProcurementMethods { get; set; } = null!;
-        public DateTime? ContractStartDate { get; set; }
-        public DateTime? ContractExecuteDate { get; set; }
-        public DateTime? ContractAmmendedDate { get; set; } = null;
-        public DateTime? ContractEndDate { get; set; }
+        
+        
 
-        [Column(TypeName = "money")]
-        public decimal? Amount { get; set; }
         public decimal? HourlyRate { get; set; }
-        public bool? Recurring { get; set; }
+         
         public string ServiceType { get; set; } = string.Empty;
         public bool? AuthorizedADPayment { get; set; }
         public string StateTermContractIdentifier { get; set; } = string.Empty;
@@ -73,6 +132,7 @@ namespace ContractTracker.Repository.EntityModels
         public string VendorType { get; set; } = string.Empty;
         public string Agency { get; set; } = string.Empty;
         public string ContractTypeCode { get; set; } = string.Empty;
+			*/
         /* 
 	 
 	 

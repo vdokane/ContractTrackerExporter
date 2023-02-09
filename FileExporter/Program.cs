@@ -26,7 +26,7 @@ var seeder = new Seeder();
 
 //TODO, this needs to be in appsettings and/or a comman line arg
 // Set a variable to the Documents path.
-const string docPath = @"C:\Users\vdoka\source\repos\FileExporter\FileExporter\file";
+const string docPath = @"E:\Export\file";
 //"Data Source=.;Initial Catalog=Tracker;Integrated Security=True"
 
 //var databaseConnectionString = "Data Source=.;Initial Catalog=Tracker;Integrated Security=True"; //TODO webHostEnvironment.GetDataBaseConnectionString();
