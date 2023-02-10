@@ -129,7 +129,7 @@ namespace FileExporter.Services
             model.CSFA = entity.CSFA.Filter(Santize.Chars);
             model.ContractStatus = entity.ContractStatus.Filter(Santize.Chars);  //Maybe?
             model.ContractStatutoryAuthority = entity.ContractStatutoryAuthority.Filter(Santize.Chars);
-            model.ContractTypeDescription = entity.ContractTypes.ContractTypeDescription.Filter(Santize.Chars);
+           // model.ContractTypeDescription = entity.ContractTypes.ContractTypeDescription.Filter(Santize.Chars);
             model.ContractNumberAbbreviated = FormatContractNumber(entity.ContractNum).Filter(Santize.Chars);
             model.ContractNumber = entity.ContractNum.Filter(Santize.Chars);
             model.ContractStatus = entity.ContractStatus.Filter(Santize.Chars);

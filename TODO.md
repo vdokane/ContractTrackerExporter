@@ -8,3 +8,6 @@ Add document TrackerHistory and connect to Contract table. Get ContractQueryRepo
 9796
 9815
 9337
+
+2/9 ..dang it, what did I map wrong in Contract?
+System.InvalidCastException: 'Unable to cast object of type 'System.Int32' to type 'System.Boolean'.'

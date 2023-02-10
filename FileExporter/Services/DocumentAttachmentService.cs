@@ -18,13 +18,17 @@ namespace FileExporter.Services
             var redactedContractAttachment = await documentQueryRepository.GetOriginalRedactedContract(documentId);
 
             var response = new List<DocumentModel>();
-            response.Add(MapEntityToModel(contractAttachmeent));
-            response.Add(MapEntityToModel(redactedContractAttachment));
+            if (contractAttachmeent != null)
+                response.Add(MapEntityToModel(contractAttachmeent));
+            if (redactedContractAttachment != null)
+                response.Add(MapEntityToModel(redactedContractAttachment));
             return response;
         }
 
         private DocumentModel MapEntityToModel(DocumentAttachments? entity)
         {
+            if (entity == null)
+                return null;
             var model = new DocumentModel();
             model.Attachment = entity.Attachment;
             model.AttachmentFileName = entity.attachmentfilename;

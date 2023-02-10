@@ -58,7 +58,7 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
         foreach (var contractModel in allContractsReadyToExport)
         {
             Console.WriteLine($"Writing contract {contractModel.ContractNumber} to output file!");
-            continue;
+            continue; //Just for testing
 
 
             //Main contract record

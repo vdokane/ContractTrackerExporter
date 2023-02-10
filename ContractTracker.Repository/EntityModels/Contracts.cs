@@ -18,85 +18,17 @@ namespace ContractTracker.Repository.EntityModels
         public DateTime? TimeStamp { get; set; }
         public DateTime? ContractEndDate { get; set; }
         public bool? Recurring { get; set; }
-
-
-		public string VendorName { get; set; } = string.Empty;
-		public string ServiceType { get; set; } = string.Empty;
-		public string  ContractNum { get; set; } = string.Empty;
-		public decimal? HourlyRate { get; set; } 
-		public string Agency { get; set; } = string.Empty;
-		public string ContractTypeCode { get; set; } = string.Empty;
-		public bool? AuthorizedADPayment { get; set; }
-		public string StateTermContractIdentifier { get; set; } = string.Empty;
-		public string ExemptionExplanation { get; set; } = string.Empty;
-		public string ContractStatutoryAuthority { get; set; } = string.Empty;
-		public string GeneralComments { get; set; } = string.Empty;
-		public bool? ContractInvolveFinancialAid { get; set; }
-		public string RecipientTypeCode { get; set; } = string.Empty;
-		public bool? IndirectCostInd { get; set; } 
-		public string AdministrativeCostPercentage { get; set; } = string.Empty;
-		public bool? ProvidePeriodicIncrease { get; set; }
-		public decimal? PeriodicIncreasePercentage { get; set; }
-		public bool? BusinessCaseStudyDone { get; set; }
-		public DateTime? BusinessCaseDate { get; set; }
-		public LegalChallengesProcurement { get; set; } ???
-	public string LegalChallengeDescription { get; set; } = string.Empty;
-	public PreviouslyDoneByTheState][bit] NULL,
-	public ConsideredBackToTheState][bit] NULL,
-	public CapitalImprovementsOnStateProperty][bit] NULL,
-	public string CapitalImprovementDescription { get; set; } = string.Empty;
-	public ValueCapitalImprovements][numeric] (13, 2) NULL,
-	public ValueUnamortizedCapitalImprovements][numeric] (13, 2) NULL,
-	public string CSFA { get; set; } = string.Empty;
-	public string CFDA { get; set; } = string.Empty;
-	public DocumentId][int] NULL,
-	public FACTSResubmittedDate][datetime] NULL,
-	public string VendorNumber { get; set; } = string.Empty;
-	public string VendorNumberSequence { get; set; } = string.Empty;
-	public FACTSContractID][int] NULL,
-	public FLAIRContractID][varchar] (10) NULL,
-	public string ContractStatus { get; set; } = string.Empty;
-	public string RejectionMessage { get; set; } = string.Empty;
-	public string VendorType { get; set; } = string.Empty;
-	public string SweepStatus { get; set; } = string.Empty;
-	public ExistingContract][bit] NULL,
-	public ExportDate][datetime] NULL,
-	public MarkedForDeletion][bit] NULL,
-	public Confidential][bit] NULL,
-	public string InternalComments { get; set; } = string.Empty;
-	public ProcurementMethodID][int] NULL,
-	public SoleSourcePurchaseId][int] NULL,
-
-
-
-			/*
-
-			        [ForeignKey("ContractTypeID")]
-		public ContractTypes ContractTypes { get; set; } = null!;
-
-		public string ContractNum { get; set; } = string.Empty;
-        public int? ContractTypeID { get; set; }
-
-
-        //public int? VendorId { get; set; }
-        public int? ContractApplicationId { get; set; }
-        public string FLAIRContractId { get; set; } = string.Empty;
-        public int? ProcurementMethodID { get; set; }
-
-        [ForeignKey("ProcurementMethodID")]
-        public ProcurementMethods ProcurementMethods { get; set; } = null!;
-        
-        
-
-        public decimal? HourlyRate { get; set; }
-         
+        public string VendorName { get; set; } = string.Empty;
         public string ServiceType { get; set; } = string.Empty;
+        public string ContractNum { get; set; } = string.Empty;
+        public decimal? HourlyRate { get; set; }
+        public string Agency { get; set; } = string.Empty;
+        public string ContractTypeCode { get; set; } = string.Empty;
         public bool? AuthorizedADPayment { get; set; }
         public string StateTermContractIdentifier { get; set; } = string.Empty;
         public string ExemptionExplanation { get; set; } = string.Empty;
         public string ContractStatutoryAuthority { get; set; } = string.Empty;
         public string GeneralComments { get; set; } = string.Empty;
-        public string InternalComments { get; set; } = string.Empty;
         public bool? ContractInvolveFinancialAid { get; set; }
         public string RecipientTypeCode { get; set; } = string.Empty;
         public bool? IndirectCostInd { get; set; }
@@ -111,65 +43,30 @@ namespace ContractTracker.Repository.EntityModels
         public bool? ConsideredBackToTheState { get; set; }
         public bool? CapitalImprovementsOnStateProperty { get; set; }
         public string CapitalImprovementDescription { get; set; } = string.Empty;
-        public decimal? ValueCapitalImprovements { get; set; }
-        public decimal? ValueUnamortizedCapitalImprovements { get; set; }
+        public decimal ValueCapitalImprovements { get; set; }
+        public decimal ValueUnamortizedCapitalImprovements { get; set; }
         public string CSFA { get; set; } = string.Empty;
         public string CFDA { get; set; } = string.Empty;
+        public bool? DocumentId { get; set; }
+        public DateTime? FACTSResubmittedDate { get; set; }
+        public string VendorNumber { get; set; } = string.Empty;
+        public string VendorNumberSequence { get; set; } = string.Empty;
+        public int? FACTSContractID { get; set; }
+        public string FLAIRContractID { get; set; } = string.Empty;
         public string ContractStatus { get; set; } = string.Empty;
         public string RejectionMessage { get; set; } = string.Empty;
+        public string VendorType { get; set; } = string.Empty;
         public string SweepStatus { get; set; } = string.Empty;
         public bool? ExistingContract { get; set; }
         public DateTime? ExportDate { get; set; }
         public bool? MarkedForDeletion { get; set; }
         public bool? Confidential { get; set; }
-        public int CreatedByUserId { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public int? LastUpdateByUserId { get; set; }
-        public DateTime? LastUpdateDate { get; set; }
-        public int? PublicContractAppContractId { get; set; }  //What was this for?
-        public string VendorNumber { get; set; } = string.Empty;
-        public string VendorNumberSequence { get; set; } = string.Empty;
-        public string VendorType { get; set; } = string.Empty;
-        public string Agency { get; set; } = string.Empty;
-        public string ContractTypeCode { get; set; } = string.Empty;
-			*/
-        /* 
-	 
-	 
- 
-	 
-	 
-	[GeneralComments] [varchar](1000) NULL,
-	[ContractInvolveFinancialAid] [bit] NULL,
-	[RecipientTypeCode] [char](1) NULL,
-	[IndirectCostInd] [bit] NULL,
-	[AdministrativeCostPercentage] [char](6) NULL,
-	[ProvidePeriodicIncrease] [bit] NULL,
-	[PeriodicIncreasePercentage] [numeric](5, 2) NULL,
-	[BusinessCaseStudyDone] [bit] NULL,
-	[BusinessCaseDate] [datetime] NULL,
-	[LegalChallengesProcurement] [bit] NULL,
-	[LegalChallengeDescription] [varchar](1000) NULL,
-	[PreviouslyDoneByTheState] [bit] NULL,
-	[ConsideredBackToTheState] [bit] NULL,
-	[CapitalImprovementsOnStateProperty] [bit] NULL,
-	[CapitalImprovementDescription] [varchar](1000) NULL,
-	[ValueCapitalImprovements] [numeric](13, 2) NULL,
-	[ValueUnamortizedCapitalImprovements] [numeric](13, 2) NULL,
-	[CSFA] [varchar](6) NULL,
-	[CFDA] [varchar](6) NULL,
-	[DocumentId] [int] NULL,
-	[FACTSResubmittedDate] [datetime] NULL,
-	 
-	[FACTSContractID] [int] NULL,
-	[FLAIRContractID] [varchar](10) NULL,
-	[ContractStatus] [char](1) NULL,
-	[RejectionMessage] [varchar](2000) NULL,
-	[VendorType] [char](1) NULL,
-	[SweepStatus] [char](1) NULL,
-	[ExistingContract] [bit] NULL,
-	[ExportDate] [datetime] NULL,
-	[MarkedForDeletion] [bit] NULL,
-	[Confidential] [bit] NULL */
+        public string InternalComments { get; set; } = string.Empty;
+        public int? ProcurementMethodID { get; set; }
+        [ForeignKey("ProcurementMethodID")]
+        public ProcurementMethods ProcurementMethods { get; set; } = null!;
+        public int? SoleSourcePurchaseId { get; set; }
+
+
     }
 }

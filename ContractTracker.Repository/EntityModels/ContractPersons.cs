@@ -12,6 +12,6 @@ namespace ContractTracker.Repository.EntityModels
 		public int PersonTypeId { get; set; }
 		public int CreatedByUserId { get; set; }
 		public DateTime CreatedDate { get; set; }
-		public virtual Persons Persons { get; set; }
+		public virtual Persons Persons { get; set; } = null!;
 	}
 }
