@@ -108,6 +108,8 @@ namespace FileExporter.Services
         private async Task<ContractExportModel> MapEntityToModel(Contracts entity)
         {
             var model = new ContractExportModel();
+            model.ContractId = entity.ContractID;
+            
             //todo move out of here
             var contractManager = await contractPersonQueryRepository.GetContractManagerForContract(entity.ContractID);
             if (contractManager != null)

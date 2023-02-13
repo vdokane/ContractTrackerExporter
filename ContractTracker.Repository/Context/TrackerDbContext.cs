@@ -1,5 +1,4 @@
-﻿using System;
-using ContractTracker.Repository.EntityModels;
+﻿using ContractTracker.Repository.EntityModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace ContractTracker.Repository.Context
@@ -27,11 +26,11 @@ namespace ContractTracker.Repository.Context
         public DbSet<Announcements> Announcements => Set<Announcements>();
         public DbSet<Units> Units => Set<Units>();
         public DbSet<AttachmentTypes> AttachmentTypes => Set<AttachmentTypes>();
-        public DbSet<ContractBudget> Budgets => Set<ContractBudget>();
+        public DbSet<ContractBudget> ContractBudget => Set<ContractBudget>();
         public DbSet<ContractPerson> ContractPerson => Set<ContractPerson>();
         public DbSet<Contracts> Contracts => Set<Contracts>();
         public DbSet<ContractTypes> ContractTypes => Set<ContractTypes>();
-        public DbSet<Deliverables> Deliverables => Set<Deliverables>();
+        public DbSet<ContractDeliverables> ContractDeliverables => Set<ContractDeliverables>();
         public DbSet<ErrorLogs> ErrorLogs => Set<ErrorLogs>();
         public DbSet<FlairCodes> FlairCodes => Set<FlairCodes>();
         public DbSet<MethodOfPayments> MethodOfPayments => Set<MethodOfPayments>();

@@ -16,9 +16,9 @@ namespace ContractTracker.Repository.QueryRepositories
             context = unitOfWork.GetContext();
         }
 
-        public async Task<List<Deliverables>> GetDeliverablesByContractId(int contractId)
+        public async Task<List<ContractDeliverables>> GetDeliverablesByContractId(int contractId)
         {
-            var entities = await context.Deliverables.Where(b => b.ContractId == contractId).AsNoTracking().ToListAsync();
+            var entities = await context.ContractDeliverables.Where(b => b.ContractID == contractId).AsNoTracking().ToListAsync();
             return entities;
         }
     }

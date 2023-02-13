@@ -46,19 +46,19 @@ namespace FileExporter.Services
             return stringBuilder.ToString();
         }
 
-        private DeliverableExportModel MapEntityToModel(Deliverables entity)
+        private DeliverableExportModel MapEntityToModel(ContractDeliverables entity)
         {
             var model = new DeliverableExportModel();
-            model.DeliverablePrices = entity.DeliverablePrices;
+            model.DeliverablePrices = entity.DeliverablePrices.Value;
             model.MajorDeliverable  = entity.MajorDeliverable;
-            model.DeliverableId = entity.DeliverableId;
+            model.DeliverableId = entity.DeliverableID;
             model.NonPriceJustification = entity.NonPriceJustification;
-            model.ContractId = entity.ContractId;
+            model.ContractId = entity.ContractID;
             model.CommodityCode = entity.CommodityCode;
             model.DocumentationPageReference = entity.DocumentationPageReference;
             model.FinancialConsequences = entity.FinancialConsequences;
             model.MajorDeliverable = entity.MajorDeliverable;
-            model.MethodOfPaymentId = entity.MethodOfPaymentId;  
+            model.MethodOfPaymentId = entity.MethodOfPaymentID;  
             model.PaymentDescription = entity.MethodOfPayments?.PaymentDescription;
             model.NonPriceJustification = entity.NonPriceJustification;
             model.PerformanceMatrix = entity.PerformanceMatrix;

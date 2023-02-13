@@ -33,8 +33,8 @@ namespace FileExporter.Services
             stringBuilder.Append(model.BudgetaryAmountType.ToString()).Append(FieldDelimiter.Delimiter);
             stringBuilder.Append(model.BudgetaryAmountAccountCode.ToString()).Append(FieldDelimiter.Delimiter);
             stringBuilder.Append(model.OtherCostAccumulater.ToString()).Append(FieldDelimiter.Delimiter);
-            stringBuilder.Append(model.EffectiveBeginDate.ToString()).Append(FieldDelimiter.Delimiter);
-            stringBuilder.Append(model.EffectiveEndDate.ToString()).Append(FieldDelimiter.Delimiter);
+            stringBuilder.Append(model.EffectiveBeginDate.Value.ToShortDateString()).Append(FieldDelimiter.Delimiter);
+            stringBuilder.Append(model.EffectiveEndDate.Value.ToShortDateString()).Append(FieldDelimiter.Delimiter);
             stringBuilder.Append(model.BudgetaryRate.ToString()).Append(FieldDelimiter.Delimiter);
                          
             return stringBuilder.ToString();
@@ -45,8 +45,8 @@ namespace FileExporter.Services
             var model = new BudgetExportModel();
 
             model.BudgetId = entity.ContractBudgetID;
-            model.ContractId = entity.ContractId;
-            model.FlairCodeId = entity.FlairCodeId;
+            model.ContractId = entity.ContractID;
+            model.FlairCodeId = entity.FLAIRCodeID;
             model.OrgCode = entity.OrgCode;
             model.EO = entity.EO;
             model.Category = entity.Category;
@@ -54,16 +54,12 @@ namespace FileExporter.Services
             model.BudgetaryAmount = entity.BudgetaryAmount;
             model.BudgetaryAmountType = entity.BudgetaryAmountType;
             model.BudgetaryAmountAccountCode = entity.BudgetaryAmountAccountCode;
-            model.OtherCostAccumulater = entity.OtherCostAccumulater;
+            //model.OtherCostAccumulater = entity.OtherCostAccumulater;
             model.FiscalYearEffectiveDate = entity.FiscalYearEffectiveDate;
             model.EffectiveBeginDate = entity.EffectiveBeginDate;
             model.EffectiveEndDate = entity.EffectiveEndDate;
-            model.BudgetaryRate = entity.BudgetaryRate;
+            model.BudgetaryRate = entity.BudgetaryRate.HasValue ? entity.BudgetaryRate.Value : 0;
             model.MarkedForDeletion = entity.MarkedForDeletion;
-            model.CreatedByUserId = entity.CreatedByUserId;
-            model.CreatedDate = entity.CreatedDate;
-            model.LastUpdateByUserId = entity.LastUpdateByUserId;
-            model.LastUpdateDate = entity.LastUpdateDate;
             model.ExportDate = entity.ExportDate;
             return model;
         }

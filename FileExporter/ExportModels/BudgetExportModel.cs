@@ -19,10 +19,10 @@ namespace FileExporter.ExportModels
         public DateTime? EffectiveEndDate { get; set; }
         public decimal BudgetaryRate { get; set; }
         public bool? MarkedForDeletion { get; set; }
-        public int CreatedByUserId { get; set; }
-        public DateTime? CreatedDate { get; set; }
-        public int? LastUpdateByUserId { get; set; }
-        public DateTime? LastUpdateDate { get; set; }
+        //public int CreatedByUserId { get; set; }
+        //public DateTime? CreatedDate { get; set; }
+        //public int? LastUpdateByUserId { get; set; }
+        //public DateTime? LastUpdateDate { get; set; }
         public int? ContractAppBudgetId { get; set; }
         public DateTime? ExportDate { get; set; }
     }

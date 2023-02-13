@@ -26,8 +26,8 @@ var seeder = new Seeder();
 
 //TODO, this needs to be in appsettings and/or a comman line arg
 // Set a variable to the Documents path.
-//const string docPath = @"E:\Export\file";
-const string docPath = @"C:\Export";
+const string docPath = @"E:\Export";
+//const string docPath = @"C:\Export";
 //"Data Source=.;Initial Catalog=Tracker;Integrated Security=True"
 
 //var databaseConnectionString = "Data Source=.;Initial Catalog=Tracker;Integrated Security=True"; //TODO webHostEnvironment.GetDataBaseConnectionString();
@@ -66,7 +66,7 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
             var contractLine = contractService.BuildContractRow(contractModel);
             outputFile.WriteLine(contractLine);
 
-            continue; //Just for testing
+            
 
             //Budget
             var allBudgetRecordsForContract = await budgetExportService.GetBudgetModelsByContractId(contractModel.ContractId);
@@ -75,8 +75,12 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
                 outputFile.WriteLine(budgetExportService.BuildBudgetRow(budgetRecord));
             }
 
+
+
+
             //Vendor
             outputFile.WriteLine(vendorExportService.BuildVendorRow(contractModel));
+            
 
             //Deliverables
             var allDeliverablesForContract = await deliverableExportService.GetDeliverableModelsByContractId(contractModel.ContractId);
@@ -84,6 +88,11 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
             {
                 outputFile.WriteLine(deliverableExportService.BuildDeliverableRow(deliveryable));
             }
+
+            //**********************************************************
+            continue; //Just for testing
+            //**********************************************************
+
 
 
             //Contract Changes

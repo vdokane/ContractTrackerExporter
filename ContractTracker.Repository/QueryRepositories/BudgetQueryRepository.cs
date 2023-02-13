@@ -17,7 +17,7 @@ namespace ContractTracker.Repository.QueryRepositories
 
         public async Task<List<ContractBudget>> GetBudgetsByContractId(int contractId)
         {
-            var entities = await context.Budgets.Where(b => b.ContractId == contractId).AsNoTracking().ToListAsync();
+            var entities = await context.ContractBudget.Where(b => b.ContractID == contractId).AsNoTracking().ToListAsync();
             return entities;
         }
 

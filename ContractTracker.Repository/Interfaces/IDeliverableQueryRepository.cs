@@ -4,7 +4,7 @@ namespace ContractTracker.Repository.Interfaces
 {
     public interface IDeliverableQueryRepository
     {
-        Task<List<Deliverables>> GetDeliverablesByContractId(int contractId);
+        Task<List<ContractDeliverables>> GetDeliverablesByContractId(int contractId);
 
     }
 }

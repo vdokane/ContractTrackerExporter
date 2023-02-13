@@ -7,7 +7,7 @@ namespace ContractTracker.Repository.MockQueryRepositories
 {
     public class MockDeliverableQueryRepository : IDeliverableQueryRepository
     {
-        public Task<List<Deliverables>> GetDeliverablesByContractId(int contractId)
+        public Task<List<ContractDeliverables>> GetDeliverablesByContractId(int contractId)
         {
             throw new NotImplementedException();
         }
