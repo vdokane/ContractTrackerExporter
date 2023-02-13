@@ -6,7 +6,7 @@ namespace ContractTracker.Repository.EntityModels
     {
         [Key]
         public int AttachmentTypeId { get; set; }
-        public string AttachmentTypeDescription { get; set; }
+        public string AttachmentTypeDescription { get; set; } = string.Empty;
         public bool? IsActive { get; set; }
         public bool? OSCAOnly { get; set; }
     }

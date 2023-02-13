@@ -26,7 +26,8 @@ var seeder = new Seeder();
 
 //TODO, this needs to be in appsettings and/or a comman line arg
 // Set a variable to the Documents path.
-const string docPath = @"E:\Export\file";
+//const string docPath = @"E:\Export\file";
+const string docPath = @"C:\Export";
 //"Data Source=.;Initial Catalog=Tracker;Integrated Security=True"
 
 //var databaseConnectionString = "Data Source=.;Initial Catalog=Tracker;Integrated Security=True"; //TODO webHostEnvironment.GetDataBaseConnectionString();
@@ -51,19 +52,21 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
     }
 
     //This should probably come from a config
-    var fileName = new StringBuilder("Sample_Export_").Append(today.ToString("yyyyMMdd")).ToString();
+    var fileName = new StringBuilder("Sample_Export_").Append(today.ToString("yyyyMMdd")).Append(".txt").ToString();
 
     using (StreamWriter outputFile = new StreamWriter(Path.Combine(docPath, fileName)))
     {
         foreach (var contractModel in allContractsReadyToExport)
         {
             Console.WriteLine($"Writing contract {contractModel.ContractNumber} to output file!");
-            continue; //Just for testing
+             
 
 
             //Main contract record
             var contractLine = contractService.BuildContractRow(contractModel);
             outputFile.WriteLine(contractLine);
+
+            continue; //Just for testing
 
             //Budget
             var allBudgetRecordsForContract = await budgetExportService.GetBudgetModelsByContractId(contractModel.ContractId);

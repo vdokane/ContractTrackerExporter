@@ -8,7 +8,7 @@ namespace ContractTracker.Repository.QueryRepositories
 {
     public interface IContractPersonQueryRepository
     {
-        Task<Persons> GetContractManagerForContract(int contractId);
+        Task<Users?> GetContractManagerForContract(int contractId);
     }
     public class ContractPersonQueryRepository : IContractPersonQueryRepository
     {
@@ -20,13 +20,13 @@ namespace ContractTracker.Repository.QueryRepositories
             context = unitOfWork.GetContext();
         }
 
-        public async Task<Persons> GetContractManagerForContract(int contractId)
+        public async Task<Users?> GetContractManagerForContract(int contractId)
         {
-            var managerEntity = await context.ContractPersons
-                                    .Where(x => x.ContractId == contractId && x.PersonTypeId == ContractManagerPersonTypeId)
-                                    .Include(i => i.Persons)
+            var managerEntity = await context.ContractPerson
+                                    .Where(x => x.ContractID == contractId && x.PersonTypeID == ContractManagerPersonTypeId)
+                                    .Include(i => i.Users)
                                     .FirstOrDefaultAsync();
-            return managerEntity?.Persons;
+            return managerEntity?.Users;
         }
     }
 }

@@ -15,6 +15,6 @@ namespace ContractTracker.Repository.EntityModels
         public int ContactLKID { get; set; }
         public int CreatedByUserId { get; set; }
         public DateTime CreatedDate { get; set; }
-        public ICollection<ContractPersons> ContractPersons { get; set; }
+         
     }
 }

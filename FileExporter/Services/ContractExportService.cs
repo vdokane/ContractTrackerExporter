@@ -108,13 +108,13 @@ namespace FileExporter.Services
         private async Task<ContractExportModel> MapEntityToModel(Contracts entity)
         {
             var model = new ContractExportModel();
-
+            //todo move out of here
             var contractManager = await contractPersonQueryRepository.GetContractManagerForContract(entity.ContractID);
             if (contractManager != null)
             {
-                model.ContractManagerPersonName = contractManager.PersonName.Filter(Santize.Chars);
-                model.ContractManagerPersonPhoneNumber = contractManager.PersonPhoneNumber.Filter(Santize.Chars);
-                model.ContractManagerPersonEmail = contractManager.PersonEmail.Filter(Santize.Chars);
+                model.ContractManagerPersonName = contractManager.UserName.Filter(Santize.Chars);
+                model.ContractManagerPersonPhoneNumber = contractManager.OfficeTelephone.Filter(Santize.Chars);
+                model.ContractManagerPersonEmail = contractManager.UserEmail.Filter(Santize.Chars);
             }
             model.ExportDate = entity.ExportDate;
             model.AdministrativeCostPercentage = entity.AdministrativeCostPercentage.Filter(Santize.Chars);
@@ -129,12 +129,12 @@ namespace FileExporter.Services
             model.CSFA = entity.CSFA.Filter(Santize.Chars);
             model.ContractStatus = entity.ContractStatus.Filter(Santize.Chars);  //Maybe?
             model.ContractStatutoryAuthority = entity.ContractStatutoryAuthority.Filter(Santize.Chars);
-           // model.ContractTypeDescription = entity.ContractTypes.ContractTypeDescription.Filter(Santize.Chars);
+            // model.ContractTypeDescription = entity.ContractTypes.ContractTypeDescription.Filter(Santize.Chars);
             model.ContractNumberAbbreviated = FormatContractNumber(entity.ContractNum).Filter(Santize.Chars);
             model.ContractNumber = entity.ContractNum.Filter(Santize.Chars);
             model.ContractStatus = entity.ContractStatus.Filter(Santize.Chars);
             model.ContractStatutoryAuthority = entity.ContractStatutoryAuthority.Filter(Santize.Chars);
-            model.DocumentID = entity.DocumentID;
+            model.DocumentID = entity.DocumentID.Value;
             model.EndDate = ConvertNullableDateToString(entity.ContractEndDate).Filter(Santize.Chars);
             model.ExecuteDate = ConvertNullableDateToString(entity.ContractExecuteDate).Filter(Santize.Chars);
             model.ExemptionExplanation = entity.ExemptionExplanation.Filter(Santize.Chars); //Does thhis get exported?
@@ -145,7 +145,8 @@ namespace FileExporter.Services
             model.LegalChallengesProcurement = ConvertNullableBoolToYesNo(entity.LegalChallengesProcurement).Filter(Santize.Chars);
             model.PeriodicIncreasePercentage = ConvertNullableDecimalToString(entity.PeriodicIncreasePercentage).Filter(Santize.Chars);
             model.PreviouslyDoneByTheState = ConvertNullableBoolToYesNo(entity.PreviouslyDoneByTheState).Filter(Santize.Chars);
-            model.ProcurementMethodDescription = entity.ProcurementMethods.ProcurementMethodDescription.Filter(Santize.Chars);
+            if (entity.MethodOfProcurementCodes != null)
+                model.ProcurementMethodDescription = entity.MethodOfProcurementCodes.Description.Filter(Santize.Chars);
             model.ProvidePeriodicIncrease = ConvertNullableBoolToYesNo(entity.ProvidePeriodicIncrease).Filter(Santize.Chars);
             model.RecipientTypeCode = entity.RecipientTypeCode.Filter(Santize.Chars);
             model.Recurring = ConvertNullableBoolToYesNo(entity.Recurring).Filter(Santize.Chars); //Do we export

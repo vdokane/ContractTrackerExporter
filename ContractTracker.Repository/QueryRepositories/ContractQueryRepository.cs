@@ -20,7 +20,11 @@ namespace ContractTracker.Repository.QueryRepositories
             if (allContractIds.Count == 0)
                 return new List<Contracts>();
 
-            var allEntities = await context.Contracts.Where(x => allContractIds.Contains(x.ContractID)).ToListAsync();
+            var allEntities = await context.Contracts
+                .Where(x => allContractIds.Contains(x.ContractID))
+                .Include(i => i.MethodOfProcurementCodes)
+                .AsNoTracking()
+                .ToListAsync();
             return allEntities;
         }
     }

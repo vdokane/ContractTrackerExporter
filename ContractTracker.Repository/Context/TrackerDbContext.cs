@@ -28,7 +28,7 @@ namespace ContractTracker.Repository.Context
         public DbSet<Units> Units => Set<Units>();
         public DbSet<AttachmentTypes> AttachmentTypes => Set<AttachmentTypes>();
         public DbSet<ContractBudget> Budgets => Set<ContractBudget>();
-        public DbSet<ContractPersons> ContractPersons => Set<ContractPersons>();
+        public DbSet<ContractPerson> ContractPerson => Set<ContractPerson>();
         public DbSet<Contracts> Contracts => Set<Contracts>();
         public DbSet<ContractTypes> ContractTypes => Set<ContractTypes>();
         public DbSet<Deliverables> Deliverables => Set<Deliverables>();
@@ -37,7 +37,7 @@ namespace ContractTracker.Repository.Context
         public DbSet<MethodOfPayments> MethodOfPayments => Set<MethodOfPayments>();
         public DbSet<Persons> Persons => Set<Persons>();
         public DbSet<PersonTypes> PersonTypes => Set<PersonTypes>();
-        public DbSet<ProcurementMethods> ProcurementMethods => Set<ProcurementMethods>();
+        public DbSet<MethodOfProcurementCodes> MethodOfProcurementCodes => Set<MethodOfProcurementCodes>();
         public DbSet<Reports> Reports => Set<Reports>();
         public DbSet<TrackingHistory> TrackingHistory => Set<TrackingHistory>();
         public DbSet<TrackingSteps> TrackingSteps => Set<TrackingSteps>();
