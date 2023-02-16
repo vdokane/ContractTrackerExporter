@@ -21,8 +21,6 @@ namespace ContractTracker.Repository.Context
         public DbSet<Users> Users => Set<Users>();
         public DbSet<UserUnits> UserUnits => Set<UserUnits>();
         public DbSet<UserRoles> UserRoles => Set<UserRoles>();
-        public DbSet<delete_AmendmentAttachments> AmendmentAttachments => Set<delete_AmendmentAttachments>();
-   
         public DbSet<Announcements> Announcements => Set<Announcements>();
         public DbSet<Units> Units => Set<Units>();
         public DbSet<AttachmentTypes> AttachmentTypes => Set<AttachmentTypes>();

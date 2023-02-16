@@ -49,6 +49,9 @@ namespace FileExporter.Services
         private DeliverableExportModel MapEntityToModel(ContractDeliverables entity)
         {
             var model = new DeliverableExportModel();
+            if (entity == null)
+                return null;
+
             model.DeliverablePrices = entity.DeliverablePrices.Value;
             model.MajorDeliverable  = entity.MajorDeliverable;
             model.DeliverableId = entity.DeliverableID;
@@ -62,7 +65,7 @@ namespace FileExporter.Services
             model.PaymentDescription = entity.MethodOfPayments?.PaymentDescription;
             model.NonPriceJustification = entity.NonPriceJustification;
             model.PerformanceMatrix = entity.PerformanceMatrix;
-            //model.ExportDate = entity.Ex THE TSBLE DOESNT HAVE EXPORT DATE@?
+            model.ExportDate = entity.ExportDate;
             return model;
         }
     }

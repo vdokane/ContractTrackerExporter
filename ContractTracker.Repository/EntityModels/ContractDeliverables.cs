@@ -10,9 +10,11 @@ namespace ContractTracker.Repository.EntityModels
         public int DeliverableID { get; set; }
         public int ContractID { get; set; }
         
-        [ForeignKey("MethodOfPaymentID")]
+        
         public int? MethodOfPaymentID { get; set; }
-        public MethodOfPayments? MethodOfPayments { get; set; } = null!;
+        
+        [ForeignKey("MethodOfPaymentID")]
+        public virtual MethodOfPayments? MethodOfPayments { get; set; } = null!;
          
         public string? MajorDeliverable { get; set; } = string.Empty;
         public decimal? DeliverablePrices { get; set; }
