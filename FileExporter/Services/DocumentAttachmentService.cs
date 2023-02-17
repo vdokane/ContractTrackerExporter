@@ -12,7 +12,7 @@ namespace FileExporter.Services
             this.documentQueryRepository = documentQueryRepository;
         }
 
-        public async Task<List<DocumentModel>> GetAllDocumentsByDocumentId(int documentId)
+        public async Task<List<DocumentModel>> GetAllExportableDocumentsByDocumentId(int documentId)
         {
             var contractAttachmeent = await documentQueryRepository.GetOriginalContract(documentId);
             var redactedContractAttachment = await documentQueryRepository.GetOriginalRedactedContract(documentId);

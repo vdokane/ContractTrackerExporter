@@ -26,7 +26,8 @@ var seeder = new Seeder();
 
 //TODO, this needs to be in appsettings and/or a comman line arg
 // Set a variable to the Documents path.
-const string docPath = @"E:\Export";
+const string docPath = @"C:\Export";
+const string attachmentPath = @"C:\Export\Documents";
 //const string docPath = @"C:\Export";
 //"Data Source=.;Initial Catalog=Tracker;Integrated Security=True"
 
@@ -89,11 +90,6 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
                 outputFile.WriteLine(deliverableExportService.BuildDeliverableRow(deliveryable));
             }
 
-            //**********************************************************
-            continue; //Just for testing
-            //**********************************************************
-
-
 
             //Contract Changes
             var contractChanges = await contractChangeExportService.GetChangesForExport(contractModel.ContractId);
@@ -101,13 +97,19 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
             {
                 outputFile.WriteLine(contractChangeExportService.BuildContractChangeRow(contractChange));
             }
+         
+         
 
-            //Contract Attachments
-            var attachments = await documentAttachmentService.GetAllDocumentsByDocumentId(contractModel.DocumentID);
+
+            //Contract Attachments (Original contract and redacted only
+            var attachments = await documentAttachmentService.GetAllExportableDocumentsByDocumentId(contractModel.DocumentID);
             foreach (var attachment in attachments)
             {
                 //crap...sorta work. Also, should this go in the using for the output file? 2023/01/02
-                var fileNameAndpath = docPath + @"\" + attachment.AttachmentFileName;
+                var fileNameAndpath = attachmentPath + @"\" + contractModel.ContractNumber + "-" + attachment.AttachmentFileName;
+
+                //outputFile.WriteLine(fileNameAndpath); //Just for testing
+
                 File.WriteAllBytes(fileNameAndpath, attachment.Attachment);
             }
 
@@ -123,21 +125,25 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
                 var redactedContractChangeAttachmentDocument
                      = await contractChangeAttachmentExportService.GetRedactedContractChangeAttachmentExportModelById(orginainlContractChangeAttachmentDocument.ContractChangeAttachmentId);
 
-                var fileNameAndpathOriginal = docPath + @"\" + orginainlContractChangeAttachmentDocument.AttachmentFilename;
+                var fileNameAndpathOriginal = attachmentPath + @"\" + orginainlContractChangeAttachmentDocument.AttachmentFilename;
                 File.WriteAllBytes(fileNameAndpathOriginal, orginainlContractChangeAttachmentDocument.Attachment);
+                //outputFile.WriteLine(fileNameAndpathOriginal); //Just for testing
+
 
                 if (redactedContractChangeAttachmentDocument == null)
                     continue;
 
-                var fileNameAndpathRedact = docPath + @"\" + redactedContractChangeAttachmentDocument.AttachmentFilename;
+                var fileNameAndpathRedact = attachmentPath + @"\" + redactedContractChangeAttachmentDocument.AttachmentFilename;
                 File.WriteAllBytes(fileNameAndpathRedact, redactedContractChangeAttachmentDocument.Attachment);
+                //outputFile.WriteLine(fileNameAndpathRedact);
             }
         }
     }
 
 }
 
-
+Console.WriteLine("About to zop");
+https://stackoverflow.com/questions/905654/zip-folder-in-c-sharp
 
 Console.WriteLine($"Done");
 

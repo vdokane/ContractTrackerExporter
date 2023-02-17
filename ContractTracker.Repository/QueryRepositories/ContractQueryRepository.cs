@@ -21,7 +21,8 @@ namespace ContractTracker.Repository.QueryRepositories
                 return new List<Contracts>();
 
             var allEntities = await context.Contracts
-                .Where(x => allContractIds.Contains(x.ContractID))
+                .Where(x =>  allContractIds.Contains(x.ContractID))
+                //TODo test .Select(x => x.ContractID).Contains(allContractIds)
                 .Include(i => i.MethodOfProcurementCodes)
                 .AsNoTracking()
                 .ToListAsync();
