@@ -1,3 +1,9 @@
+APPLY TABLE CHANGES TO YOUR LAPTOP
+Very next, finish ServiceType fiasco
+Get proc docs and figure out how they are named/exported and set up in index
+ZIP!
+
+
 Add document TrackerHistory and connect to Contract table. Get ContractQueryRepo and test!
 1) File layout order (do this on lunch break so you can use all the monitors)
 2) How are the attachments handled
