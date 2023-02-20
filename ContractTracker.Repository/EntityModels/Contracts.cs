@@ -68,6 +68,8 @@ namespace ContractTracker.Repository.EntityModels
         public MethodOfProcurementCodes? MethodOfProcurementCodes { get; set; } = null!;
         public int? SoleSourcePurchaseId { get; set; }
 
-
+        [ForeignKey("ServiceTypeId")]
+        public int ServiceTypeId { get; set; }
+        public ServiceTypes? ServiceTypes { get; set; } = null!;    
     }
 }

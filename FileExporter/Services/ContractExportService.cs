@@ -57,7 +57,8 @@ namespace FileExporter.Services
             stringBuilder.Append(ScsOlo.OrgCode).Append(FieldDelimiter.Delimiter);
 
             stringBuilder.Append(model.ContractNumberAbbreviated).Append(FieldDelimiter.Delimiter);
-
+            stringBuilder.Append(model.ServiceTypeName).Append(FieldDelimiter.Delimiter);
+            stringBuilder.Append(model.ServiceTypeShortTitle).Append(FieldDelimiter.Delimiter);
             //Left off here..I have no icdea what the order is!! 2023/01/02
 
             stringBuilder.Append(model.Amount).Append(FieldDelimiter.Delimiter);
@@ -95,7 +96,7 @@ namespace FileExporter.Services
             stringBuilder.Append(model.PublicContractAppContractId).Append(FieldDelimiter.Delimiter);
             stringBuilder.Append(model.RecipientTypeCode).Append(FieldDelimiter.Delimiter);
             stringBuilder.Append(model.Recurring).Append(FieldDelimiter.Delimiter);
-            stringBuilder.Append(model.ServiceType).Append(FieldDelimiter.Delimiter);
+             
             stringBuilder.Append(model.StartDate).Append(FieldDelimiter.Delimiter);
             stringBuilder.Append(model.StateTermContractIdentifier).Append(FieldDelimiter.Delimiter);
             stringBuilder.Append(model.ValueCapitalImprovements).Append(FieldDelimiter.Delimiter);
@@ -152,7 +153,15 @@ namespace FileExporter.Services
             model.ProvidePeriodicIncrease = ConvertNullableBoolToYesNo(entity.ProvidePeriodicIncrease).Filter(Santize.Chars);
             model.RecipientTypeCode = entity.RecipientTypeCode.Filter(Santize.Chars);
             model.Recurring = ConvertNullableBoolToYesNo(entity.Recurring).Filter(Santize.Chars); //Do we export
-            model.ServiceType = entity.ServiceType.Filter(Santize.Chars);
+
+           
+            if (entity.ServiceTypes != null)
+            {
+                model.ServiceTypeName = entity.ServiceTypes.ServiceTypeName.Filter(Santize.Chars);
+                model.ServiceTypeShortTitle = entity.ServiceTypes.ShortTitle.Filter(Santize.Chars);
+            }
+            
+            
             model.StartDate = ConvertNullableDateToString(entity.ContractStartDate).Filter(Santize.Chars);
             model.StateTermContractIdentifier = entity.StateTermContractIdentifier.Filter(Santize.Chars);
             model.ValueCapitalImprovements = ConvertNullableDecimalToString(entity.ValueCapitalImprovements).Filter(Santize.Chars);
