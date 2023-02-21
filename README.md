@@ -16,3 +16,15 @@ JOINS, procurement method, users, vendor
  Once it is exported, add an exported date?
 
  At some point find out if it is easier to get each child record list from the DB in the foreach of one ig collection of collections
+
+
+ #Contract order
+ OLO
+ Agency Service Area What is this?
+ Contract Number 5 digit
+ Service Type Contract's Short Title (I think service type)
+ Contract's Long Title
+ Agency Assigned Contract Identifier (This data must not be sent to FLAIR. what is this? Looks like ContractId? 11760)
+ Contract’s Type (SC? supreme court or State Wide)
+ Contract Status (2 character)
+  Contract’s Vendor Id (21 character) But 0.0000 is what is in the file, the hell?
