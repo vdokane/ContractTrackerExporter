@@ -7,9 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileExporter", "FileExporte
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContractTracker.Repository", "ContractTracker.Repository\ContractTracker.Repository.csproj", "{3191137C-A607-4AF3-B0BC-85D9AD64D2E6}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7BC8B1F8-1035-483D-B4CA-54E466519E5F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileExporter.Tests", "FileExporter.Tests\FileExporter.Tests.csproj", "{9CAD99BE-F8DE-4CCC-8FB0-57459007227A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C1718E85-2D5E-4420-9452-09612582197B}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
+		TODO.md = TODO.md
 	EndProjectSection
 EndProject
 Global
@@ -26,6 +29,10 @@ Global
 		{3191137C-A607-4AF3-B0BC-85D9AD64D2E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3191137C-A607-4AF3-B0BC-85D9AD64D2E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3191137C-A607-4AF3-B0BC-85D9AD64D2E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CAD99BE-F8DE-4CCC-8FB0-57459007227A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CAD99BE-F8DE-4CCC-8FB0-57459007227A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CAD99BE-F8DE-4CCC-8FB0-57459007227A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CAD99BE-F8DE-4CCC-8FB0-57459007227A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
