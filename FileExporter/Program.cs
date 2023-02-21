@@ -5,6 +5,7 @@ using FileExporter.Factory;
 using FileExporter.Services;
 using System.Text;
 using Microsoft.Extensions.Configuration; //Install this from NuGet: Microsoft.Extensions.Configuration and Microsoft.Extensions.Configuration.Json
+using System.IO.Compression;
 
 const bool useMock = false;
 DateTime today = new DateTime(2023, 1, 25); //DateTime.Today; //TODO, use param 
@@ -142,8 +143,14 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
 
 }
 
-Console.WriteLine("About to zop");
-https://stackoverflow.com/questions/905654/zip-folder-in-c-sharp
+Console.WriteLine("About to zip");
+//https://stackoverflow.com/questions/905654/zip-folder-in-c-sharp
+
+
+var zipPath = attachmentPath + @"\documents.zip";
+//string extractPath = @"c:\example\extract";
+
+ZipFile.CreateFromDirectory(attachmentPath, zipPath);
 
 Console.WriteLine($"Done");
 
