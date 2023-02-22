@@ -79,7 +79,9 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
 
 
 
-            //Vendor
+            //Vendor ...I think this is wrong.. this is part of contract row?
+            //todo query this contract 002Q3
+            //WHERE IS SHORT TITLE COMING FROM? LEG-Cons|Legal Services-Consulting
             outputFile.WriteLine(vendorExportService.BuildVendorRow(contractModel));
             
 
@@ -97,8 +99,15 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
             {
                 outputFile.WriteLine(contractChangeExportService.BuildContractChangeRow(contractChange));
             }
-         
-         
+
+
+
+            //TODO 2023/02/17
+            //  create Index.txt
+            //  CN-220000-T00B1J.pdf
+            //CN|220000|00B1J||CN-220000-T00B1J.pdf|| 
+
+
 
 
             //Contract Attachments (Original contract and redacted only
