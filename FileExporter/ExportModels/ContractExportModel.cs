@@ -21,7 +21,8 @@ namespace FileExporter.ExportModels
         public string Amount { get; set; } = string.Empty;
         public string HourlyRate { get; set; } = string.Empty;
         public string Recurring { get; set; } = string.Empty;
-        public string ServiceType { get; set; } = string.Empty;
+        public string ServiceTypeName { get; set; } = string.Empty;
+        public string ServiceTypeShortTitle { get; set; } = string.Empty;
         public string AuthorizedADPayment { get; set; } = string.Empty;
         public string StateTermContractIdentifier { get; set; } = string.Empty;
         public string ExemptionExplanation { get; set; } = string.Empty;
