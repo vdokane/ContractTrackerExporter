@@ -70,7 +70,7 @@ New Ending Date
 Change Description
 Amendment Order
 
-#budget
+#budget (done but what about BudgetaryRate?)
 Record Type BUGT
 Agency Amendment Reference
 Budgetary Amount
@@ -83,7 +83,7 @@ OCA
 VNDR”
 Vendor Id  Text 21
 
-#Deliverable
+#Deliverable (done)
 DLBL”
 Commodity/Service Type
 Major Deliverable
@@ -93,7 +93,7 @@ Non-Price Justification
 Performance Metrics
 Financial Consequences
 Source Documentation Page Reference
-Deliverable Number
+Deliverable Number  <--- what is this?
 
 # really? CSFA”
 CSFA”

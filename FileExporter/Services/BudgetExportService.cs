@@ -22,21 +22,33 @@ namespace FileExporter.Services
 
         public string BuildBudgetRow(BudgetExportModel model)
         {
+            /*Record Type BUGT
+        Agency Amendment Reference
+        Budgetary Amount
+        Budgetary Amount Type
+        Budgetary Amount Account Code
+        Budgetary Amount Fiscal Year Effective Date
+        OCA */
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append(RowConstants.Budget).Append(FieldDelimiter.Delimiter);
             if (model.ExportDate.HasValue)
                 stringBuilder.Append(SaveConstants.Update).Append(FieldDelimiter.Delimiter);
             else
                 stringBuilder.Append(SaveConstants.Insert).Append(FieldDelimiter.Delimiter);
-            stringBuilder.Append(model.BudgetaryAmount.ToString()).Append(FieldDelimiter.Delimiter);
             stringBuilder.Append(model.AgencyAmendmentReference.ToString()).Append(FieldDelimiter.Delimiter);
+            stringBuilder.Append(model.BudgetaryAmount.ToString()).Append(FieldDelimiter.Delimiter);
             stringBuilder.Append(model.BudgetaryAmountType.ToString()).Append(FieldDelimiter.Delimiter);
             stringBuilder.Append(model.BudgetaryAmountAccountCode.ToString()).Append(FieldDelimiter.Delimiter);
+            stringBuilder.Append(model.FiscalYearEffectiveDate.ConvertNullableDateToString()).Append(FieldDelimiter.Delimiter);
             stringBuilder.Append(model.OtherCostAccumulater.ToString()).Append(FieldDelimiter.Delimiter);
-            stringBuilder.Append(model.EffectiveBeginDate.Value.ToShortDateString()).Append(FieldDelimiter.Delimiter);
-            stringBuilder.Append(model.EffectiveEndDate.Value.ToShortDateString()).Append(FieldDelimiter.Delimiter);
-            stringBuilder.Append(model.BudgetaryRate.ToString()).Append(FieldDelimiter.Delimiter);
-                         
+            
+
+
+
+            //stringBuilder.Append(model.EffectiveBeginDate.Value.ToShortDateString()).Append(FieldDelimiter.Delimiter);
+            //stringBuilder.Append(model.EffectiveEndDate.Value.ToShortDateString()).Append(FieldDelimiter.Delimiter);
+            //stringBuilder.Append(model.BudgetaryRate.ToString()).Append(FieldDelimiter.Delimiter);  //REALLY?
+
             return stringBuilder.ToString();
         }
 

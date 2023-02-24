@@ -171,11 +171,11 @@ New Ending Date
             model.ExportDate = entity.ExportDate;
             model.AdministrativeCostPercentage = entity.AdministrativeCostPercentage.Filter(Santize.Chars);
             model.Amount = entity.Amount.HasValue ? entity.Amount.Value.ToString().Filter(Santize.Chars) : string.Empty;
-            model.AuthorizedADPayment = ConvertNullableBoolToYesNo(entity.AuthorizedADPayment).Filter(Santize.Chars);
-            model.BusinessCaseDate = ConvertNullableDateToString(entity.BusinessCaseDate).Filter(Santize.Chars);
-            model.BusinessCaseStudyDone = ConvertNullableBoolToYesNo(entity.BusinessCaseStudyDone).Filter(Santize.Chars);
+            model.AuthorizedADPayment = entity.AuthorizedADPayment.ConvertNullableBoolToYesNo().Filter(Santize.Chars);
+            model.BusinessCaseDate = entity.BusinessCaseDate.ConvertNullableDateToString().Filter(Santize.Chars);
+            model.BusinessCaseStudyDone = entity.BusinessCaseStudyDone.ConvertNullableBoolToYesNo().Filter(Santize.Chars);
             model.CapitalImprovementDescription = entity.CapitalImprovementDescription.Filter(Santize.Chars);
-            model.CapitalImprovementsOnStateProperty = ConvertNullableBoolToYesNo(entity.CapitalImprovementsOnStateProperty).Filter(Santize.Chars);
+            model.CapitalImprovementsOnStateProperty = entity.CapitalImprovementsOnStateProperty.ConvertNullableBoolToYesNo().Filter(Santize.Chars);
             model.CFDA = entity.CFDA.Filter(Santize.Chars);
             //Confidential?
             model.CSFA = entity.CSFA.Filter(Santize.Chars);
@@ -187,21 +187,21 @@ New Ending Date
             model.ContractStatus = entity.ContractStatus.Filter(Santize.Chars);
             model.ContractStatutoryAuthority = entity.ContractStatutoryAuthority.Filter(Santize.Chars);
             model.DocumentID = entity.DocumentID.Value;
-            model.EndDate = ConvertNullableDateToString(entity.ContractEndDate).Filter(Santize.Chars);
-            model.ExecuteDate = ConvertNullableDateToString(entity.ContractExecuteDate).Filter(Santize.Chars);
+            model.EndDate = entity.ContractEndDate.ConvertNullableDateToString().Filter(Santize.Chars);
+            model.ExecuteDate = entity.ContractExecuteDate.ConvertNullableDateToString().Filter(Santize.Chars);
             model.ExemptionExplanation = entity.ExemptionExplanation.Filter(Santize.Chars); //Does thhis get exported?
             model.GeneralComments = entity.GeneralComments.Filter(Santize.Chars);  //Again, does this get exported? 
-            model.HourlyRate = ConvertNullableDecimalToString(entity.HourlyRate).Filter(Santize.Chars);
-            model.IndirectCostInd = ConvertNullableBoolToYesNo(entity.IndirectCostInd).Filter(Santize.Chars);
+            model.HourlyRate = entity.HourlyRate.ConvertNullableDecimalToString().Filter(Santize.Chars);
+            model.IndirectCostInd = entity.IndirectCostInd.ConvertNullableBoolToYesNo().Filter(Santize.Chars);
             model.LegalChallengeDescription = entity.LegalChallengeDescription.Filter(Santize.Chars);
-            model.LegalChallengesProcurement = ConvertNullableBoolToYesNo(entity.LegalChallengesProcurement).Filter(Santize.Chars);
-            model.PeriodicIncreasePercentage = ConvertNullableDecimalToString(entity.PeriodicIncreasePercentage).Filter(Santize.Chars);
-            model.PreviouslyDoneByTheState = ConvertNullableBoolToYesNo(entity.PreviouslyDoneByTheState).Filter(Santize.Chars);
+            model.LegalChallengesProcurement = entity.LegalChallengesProcurement.ConvertNullableBoolToYesNo().Filter(Santize.Chars);
+            model.PeriodicIncreasePercentage = entity.PeriodicIncreasePercentage.ConvertNullableDecimalToString().Filter(Santize.Chars);
+            model.PreviouslyDoneByTheState = entity.PreviouslyDoneByTheState.ConvertNullableBoolToYesNo().Filter(Santize.Chars);
             if (entity.MethodOfProcurementCodes != null)
                 model.ProcurementMethodDescription = entity.MethodOfProcurementCodes.Description.Filter(Santize.Chars);
-            model.ProvidePeriodicIncrease = ConvertNullableBoolToYesNo(entity.ProvidePeriodicIncrease).Filter(Santize.Chars);
+            model.ProvidePeriodicIncrease = entity.ProvidePeriodicIncrease.ConvertNullableBoolToYesNo().Filter(Santize.Chars);
             model.RecipientTypeCode = entity.RecipientTypeCode.Filter(Santize.Chars);
-            model.Recurring = ConvertNullableBoolToYesNo(entity.Recurring).Filter(Santize.Chars); //Do we export
+            model.Recurring = entity.Recurring.ConvertNullableBoolToYesNo().Filter(Santize.Chars); //Do we export
 
            
             if (entity.ServiceTypes != null)
@@ -211,10 +211,10 @@ New Ending Date
             }
             
             
-            model.StartDate = ConvertNullableDateToString(entity.ContractStartDate).Filter(Santize.Chars);
+            model.StartDate = entity.ContractStartDate.ConvertNullableDateToString().Filter(Santize.Chars);
             model.StateTermContractIdentifier = entity.StateTermContractIdentifier.Filter(Santize.Chars);
-            model.ValueCapitalImprovements = ConvertNullableDecimalToString(entity.ValueCapitalImprovements).Filter(Santize.Chars);
-            model.ValueUnamortizedCapitalImprovements = ConvertNullableDecimalToString(entity.ValueUnamortizedCapitalImprovements).Filter(Santize.Chars);
+            model.ValueCapitalImprovements = entity.ValueCapitalImprovements.ConvertNullableDecimalToString().Filter(Santize.Chars);
+            model.ValueUnamortizedCapitalImprovements = entity.ValueUnamortizedCapitalImprovements.ConvertNullableDecimalToString().Filter(Santize.Chars);
             //TODO, at a certain point this needs to be a join
             model.VendorType = entity.VendorType;
             model.VendorNumber = entity.VendorNumber;
@@ -223,20 +223,7 @@ New Ending Date
             return model;
         }
 
-        private string ConvertNullableBoolToYesNo(bool? property)
-        {
-            return property.HasValue ? (property.Value ? "Y" : "N") : string.Empty;  //I think or does it default to no?
-        }
-
-        private string ConvertNullableDateToString(DateTime? property)
-        {
-            return property.HasValue ? property.Value.ToString("YYYY-MM-dd") : string.Empty;
-        }
-
-        private string ConvertNullableDecimalToString(decimal? property)
-        {
-            return property.HasValue ? property.Value.ToString() : string.Empty;
-        }
+        
         private string FormatContractNumber(string contractNumber)
         {
             //TODO, remove the first two characters

@@ -23,8 +23,22 @@ namespace FileExporter.Services
             var entities = await deliverableQueryRepository.GetDeliverablesByContractId(contractId);
             return entities.ConvertAll(x => MapEntityToModel(x));
         }
+
+
         public string BuildDeliverableRow(DeliverableExportModel model)
-        {
+        {/*
+          * #Deliverable
+DLBL”
+Commodity/Service Type
+Major Deliverable
+Method of Payment
+Major Deliverable Price
+Non-Price Justification
+Performance Metrics
+Financial Consequences
+Source Documentation Page Reference
+Deliverable Number
+*/
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append(RowConstants.Deliverable).Append(FieldDelimiter.Delimiter);
             
@@ -32,17 +46,16 @@ namespace FileExporter.Services
                  stringBuilder.Append(SaveConstants.Update).Append(FieldDelimiter.Delimiter);
              else
                  stringBuilder.Append(SaveConstants.Insert).Append(FieldDelimiter.Delimiter);
-            
             stringBuilder.Append(model.CommodityCode.ToString()).Append(FieldDelimiter.Delimiter);
-            stringBuilder.Append(model.DeliverablePrices.ToString()).Append(FieldDelimiter.Delimiter);
-            stringBuilder.Append(model.DocumentationPageReference).Append(FieldDelimiter.Delimiter);
             stringBuilder.Append(model.MajorDeliverable).Append(FieldDelimiter.Delimiter);
-            stringBuilder.Append(model.CommodityCode).Append(FieldDelimiter.Delimiter);
-            stringBuilder.Append(model.PerformanceMatrix).Append(FieldDelimiter.Delimiter);
-            stringBuilder.Append(model.NonPriceJustification).Append(FieldDelimiter.Delimiter);
-            stringBuilder.Append(model.FinancialConsequences).Append(FieldDelimiter.Delimiter);
             stringBuilder.Append(model.PaymentDescription).Append(FieldDelimiter.Delimiter);
-     
+            stringBuilder.Append(model.DeliverablePrices.ToString()).Append(FieldDelimiter.Delimiter);
+            stringBuilder.Append(model.NonPriceJustification).Append(FieldDelimiter.Delimiter);
+            stringBuilder.Append(model.PerformanceMatrix).Append(FieldDelimiter.Delimiter);
+            stringBuilder.Append(model.FinancialConsequences).Append(FieldDelimiter.Delimiter);
+            stringBuilder.Append(model.DocumentationPageReference).Append(FieldDelimiter.Delimiter);
+            stringBuilder.Append(model.DeliverableNumber).Append(FieldDelimiter.Delimiter);
+
             return stringBuilder.ToString();
         }
 
@@ -58,7 +71,7 @@ namespace FileExporter.Services
             model.NonPriceJustification = entity.NonPriceJustification;
             model.ContractId = entity.ContractID;
             model.CommodityCode = entity.CommodityCode;
-            model.DocumentationPageReference = entity.DocumentationPageReference;
+            model.DocumentationPageReference = string.IsNullOrEmpty(entity.DocumentationPageReference) ? "N/A" : entity.DocumentationPageReference;
             model.FinancialConsequences = entity.FinancialConsequences;
             model.MajorDeliverable = entity.MajorDeliverable;
             model.MethodOfPaymentId = entity.MethodOfPaymentID;  
