@@ -60,5 +60,8 @@ namespace FileExporter.ExportModels
         public string VendorType { get; set; } = string.Empty;
         public string VendorNumber { get; set; } = string.Empty;
         public string VendorNumberSequence { get; set; } = string.Empty;
+
+        
+
     }
 }

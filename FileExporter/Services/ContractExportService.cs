@@ -43,7 +43,51 @@ namespace FileExporter.Services
             return response;
         }
 
-        //TODO, get format
+        /*
+         * FLAIR Agency Identifier (OLO)
+FLAIR Contract/Grant Disbursement Agreement Identifier (FLAIR ID)
+Short Title
+Long Title
+        Agency Assigned Contract/Grant Disbursement Agreement Identifier .ContractId
+Contract/Grant Disbursement Agreement’s Type = "sc"
+Contract/Grant Disbursement Agreement’s Status
+Original Contract/Grant Disbursement Agreement Amount
+
+Contract/Grant Disbursement Agreement’s Date of Execution    YYYY-MM-DD
+
+Contract/Grant Disbursement Agreement’s Beginning Date
+Contract/Grant Disbursement Agreements’ Original Ending Date
+Agency Service Area
+Agency Contract/Grant Disbursement Agreement Manager’s Name
+Agency Contract/Grant Disbursement Agreement Manager’s Phone Number
+Agency Contract/Grant Disbursement Agreement Manager‘s e-mail address
+Authorized Advance Payment
+Contract/Grant Disbursement Agreement’s Method of Procurement
+State Term Contract Identifier
+Agency Reference Number
+Contract/Grant Disbursement Agreement’s Exemption Explanation
+Contract/Grant Disbursement Agreement’s Statutory Authority
+General Description of the Contract/Grant Disbursement Agreement
+Contract/Grant Disbursement Agreement Involves State or Federal Financial Aid
+Recipient Type
+Provide for Administrative Cost
+Administrative Cost Percentage
+Provide for Periodic Increase
+Periodic Increase Percentage
+Business Case Study Done
+Business Case Date
+Legal Challenges to Procurement
+Legal Challenge Description
+Was the Contracted Functions Previously Done by the State
+Was the Contracted Functions Considered for Insourcing back to the State
+Did the Vendor Make Capital Improvements on State Property
+Capital Improvements Description
+Value of Capital Improvements
+Value of Unamortized Capital Improvements
+Do not publish this contract/grant disbursement agreement on the FACTS website
+New Ending Date
+
+         */
         public string BuildContractRow(ContractExportModel model)
         {
             //If the contract has an export date, we are in update, otherwise insert
@@ -59,9 +103,14 @@ namespace FileExporter.Services
             stringBuilder.Append(model.ContractNumberAbbreviated).Append(FieldDelimiter.Delimiter);
             stringBuilder.Append(model.ServiceTypeName).Append(FieldDelimiter.Delimiter);
             stringBuilder.Append(model.ServiceTypeShortTitle).Append(FieldDelimiter.Delimiter);
+            stringBuilder.Append(model.ContractId.ToString()).Append(FieldDelimiter.Delimiter);
+            stringBuilder.Append("SC").Append(FieldDelimiter.Delimiter);
+            stringBuilder.Append(model.ContractStatus).Append(FieldDelimiter.Delimiter);
+            stringBuilder.Append(model.Amount).Append(FieldDelimiter.Delimiter);
+            stringBuilder.Append(model.ExecuteDate).Append(FieldDelimiter.Delimiter);
             //Left off here..I have no icdea what the order is!! 2023/01/02
 
-            stringBuilder.Append(model.Amount).Append(FieldDelimiter.Delimiter);
+
             stringBuilder.Append(model.BusinessCaseDate).Append(FieldDelimiter.Delimiter);
             stringBuilder.Append(model.LegalChallengeDescription).Append(FieldDelimiter.Delimiter);
             stringBuilder.Append(model.AdministrativeCostPercentage).Append(FieldDelimiter.Delimiter);
@@ -181,7 +230,7 @@ namespace FileExporter.Services
 
         private string ConvertNullableDateToString(DateTime? property)
         {
-            return property.HasValue ? property.Value.ToShortDateString() : string.Empty;
+            return property.HasValue ? property.Value.ToString("YYYY-MM-dd") : string.Empty;
         }
 
         private string ConvertNullableDecimalToString(decimal? property)
