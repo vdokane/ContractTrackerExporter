@@ -29,4 +29,11 @@ namespace FileExporter.Infrastructure
     {
         public static List<char> Chars = new List<char>() { '|'};
     }
+    internal class AttachmentRowConstants
+    {
+        public const string Contract = "CN";
+        public const string Procurement = "???";
+        public const string Change = "???";
+    }
+
 }

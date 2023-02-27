@@ -27,11 +27,15 @@ var seeder = new Seeder();
 
 //TODO, this needs to be in appsettings and/or a comman line arg
 // Set a variable to the Documents path.
-const string docPath = @"C:\Export";
-const string attachmentPath = @"C:\Export\Documents";
-const string attachmentPathCompressed = @"C:\Export\DocumentsZipped.zip";
+const string docPath = @"E:\Export";
+const string attachmentPath = @"E:\Export\Documents";
+const string attachmentIndexPath = @"E:\Export\Documents\Index.txt";
+const string attachmentPathCompressed = @"E:\Export\DocumentsZipped.zip";
 //const string docPath = @"C:\Export";
 //"Data Source=.;Initial Catalog=Tracker;Integrated Security=True"
+
+var attachmentIndexService = new AttachmentIndexService();
+var allAttachmentDocumentsModel = new List<AttachmentIndexModel>();
 
 //var databaseConnectionString = "Data Source=.;Initial Catalog=Tracker;Integrated Security=True"; //TODO webHostEnvironment.GetDataBaseConnectionString();
 var _uowFactory = new UowFactory(connectionString);
@@ -51,10 +55,10 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
 
 
     var allContractsReadyToExport = await contractService.GetContractsForExporting(today);
-    if(allContractsReadyToExport.Count == 0)
+    if (allContractsReadyToExport.Count == 0)
     {
         Console.WriteLine("Done because no conracts to export");
-            return;
+        return;
     }
 
     //This should probably come from a config
@@ -65,14 +69,14 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
         foreach (var contractModel in allContractsReadyToExport)
         {
             Console.WriteLine($"Writing contract {contractModel.ContractNumber} to output file!");
-             
+
 
 
             //Main contract record
             var contractLine = contractService.BuildContractRow(contractModel);
             outputFile.WriteLine(contractLine);
 
-            
+
 
             //Budget
             var allBudgetRecordsForContract = await budgetExportService.GetBudgetModelsByContractId(contractModel.ContractId);
@@ -88,7 +92,7 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
             //todo query this contract 002Q3
             //WHERE IS SHORT TITLE COMING FROM? LEG-Cons|Legal Services-Consulting
             outputFile.WriteLine(vendorExportService.BuildVendorRow(contractModel));
-            
+
 
             //Deliverables
             var allDeliverablesForContract = await deliverableExportService.GetDeliverableModelsByContractId(contractModel.ContractId);
@@ -156,10 +160,20 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
 
 }
 
+//Create the index file to be zipped up with the attachments
+using (StreamWriter attachmentIndexFile = new StreamWriter(attachmentIndexPath))
+{
+    foreach (var attacmentModel in allAttachmentDocumentsModel)
+    {
+        string attachmentIndexFileRow = attachmentIndexService.BuildAttachmentIndexRow(attacmentModel);
+        attachmentIndexFile.WriteLine(attachmentIndexFileRow);
+    }
+
+}
 Console.WriteLine("About to zip");
 https://stackoverflow.com/questions/905654/zip-folder-in-c-sharp
 ZipFile.CreateFromDirectory(attachmentPath, attachmentPathCompressed);
- 
- 
+
+
 Console.WriteLine($"Done");
 
