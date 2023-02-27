@@ -5,6 +5,7 @@ using FileExporter.Factory;
 using FileExporter.Services;
 using System.Text;
 using Microsoft.Extensions.Configuration; //Install this from NuGet: Microsoft.Extensions.Configuration and Microsoft.Extensions.Configuration.Json
+using System.IO.Compression;
 
 const bool useMock = false;
 DateTime today = new DateTime(2023, 1, 25); //DateTime.Today; //TODO, use param 
@@ -28,6 +29,7 @@ var seeder = new Seeder();
 // Set a variable to the Documents path.
 const string docPath = @"C:\Export";
 const string attachmentPath = @"C:\Export\Documents";
+const string attachmentPathCompressed = @"C:\Export\DocumentsZipped.zip";
 //const string docPath = @"C:\Export";
 //"Data Source=.;Initial Catalog=Tracker;Integrated Security=True"
 
@@ -45,6 +47,9 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
     var contractChangeAttachmentExportService = businessServiceFactory.BuildContractChangeAttachmentExportService(useMock);
 
     //Do work starts here
+
+
+
     var allContractsReadyToExport = await contractService.GetContractsForExporting(today);
     if(allContractsReadyToExport.Count == 0)
     {
@@ -151,8 +156,10 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
 
 }
 
-Console.WriteLine("About to zop");
+Console.WriteLine("About to zip");
 https://stackoverflow.com/questions/905654/zip-folder-in-c-sharp
-
+ZipFile.CreateFromDirectory(attachmentPath, attachmentPathCompressed);
+ 
+ 
 Console.WriteLine($"Done");
 

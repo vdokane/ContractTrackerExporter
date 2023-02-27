@@ -52,23 +52,23 @@ Long Title
 Contract/Grant Disbursement Agreement’s Type = "sc"
 Contract/Grant Disbursement Agreement’s Status
 Original Contract/Grant Disbursement Agreement Amount
-
 Contract/Grant Disbursement Agreement’s Date of Execution    YYYY-MM-DD
-
 Contract/Grant Disbursement Agreement’s Beginning Date
-Contract/Grant Disbursement Agreements’ Original Ending Date
+Contract/Grant Disbursement Agreements’ Original Ending Date ..why do they hae 9999-09-09
 Agency Service Area
 Agency Contract/Grant Disbursement Agreement Manager’s Name
 Agency Contract/Grant Disbursement Agreement Manager’s Phone Number
 Agency Contract/Grant Disbursement Agreement Manager‘s e-mail address
 Authorized Advance Payment
-Contract/Grant Disbursement Agreement’s Method of Procurement
-State Term Contract Identifier
-Agency Reference Number
+        Contract/Grant Disbursement Agreement’s Method of Procurement
+        State Term Contract Identifier
+
+Agency Reference Number <-- wat?
 Contract/Grant Disbursement Agreement’s Exemption Explanation
 Contract/Grant Disbursement Agreement’s Statutory Authority
 General Description of the Contract/Grant Disbursement Agreement
 Contract/Grant Disbursement Agreement Involves State or Federal Financial Aid
+
 Recipient Type
 Provide for Administrative Cost
 Administrative Cost Percentage
@@ -108,17 +108,40 @@ New Ending Date
             stringBuilder.Append(model.ContractStatus).Append(FieldDelimiter.Delimiter);
             stringBuilder.Append(model.Amount).Append(FieldDelimiter.Delimiter);
             stringBuilder.Append(model.ExecuteDate).Append(FieldDelimiter.Delimiter);
-            //Left off here..I have no icdea what the order is!! 2023/01/02
-
-
-            stringBuilder.Append(model.BusinessCaseDate).Append(FieldDelimiter.Delimiter);
-            stringBuilder.Append(model.LegalChallengeDescription).Append(FieldDelimiter.Delimiter);
-            stringBuilder.Append(model.AdministrativeCostPercentage).Append(FieldDelimiter.Delimiter);
-            stringBuilder.Append(model.AmmendedDate).Append(FieldDelimiter.Delimiter);
+            stringBuilder.Append(model.StartDate).Append(FieldDelimiter.Delimiter);
             stringBuilder.Append(model.EndDate).Append(FieldDelimiter.Delimiter);
+            stringBuilder.Append(model.AgencyServiceArea).Append(FieldDelimiter.Delimiter);
+            stringBuilder.Append(model.ContractManagerPersonName).Append(FieldDelimiter.Delimiter);
+            stringBuilder.Append(model.ContractManagerPersonPhoneNumber).Append(FieldDelimiter.Delimiter);
+            stringBuilder.Append(model.ContractManagerPersonEmail).Append(FieldDelimiter.Delimiter);
             stringBuilder.Append(model.AuthorizedADPayment).Append(FieldDelimiter.Delimiter);
-            stringBuilder.Append(model.BusinessCaseDate).Append(FieldDelimiter.Delimiter);
+            stringBuilder.Append(model.ProcurementMethodDescription).Append(FieldDelimiter.Delimiter);
+            stringBuilder.Append(model.StateTermContractIdentifier).Append(FieldDelimiter.Delimiter);
+            //Left off here 
+            //Agency Reference Number < --wat ?
+
+            //Contract / Grant Disbursement Agreement’s Exemption Explanation
+            stringBuilder.Append(model.ExemptionExplanation).Append(FieldDelimiter.Delimiter);
+            //Contract / Grant Disbursement Agreement’s Statutory Authority
+            stringBuilder.Append(model.ContractStatutoryAuthority).Append(FieldDelimiter.Delimiter);
+            // General Description of the Contract/ Grant Disbursement Agreement
+            //????????????????????/model.dis
+//Contract / Grant Disbursement Agreement Involves State or Federal Financial Aid
+ stringBuilder.Append(model.ContractInvolveFinancialAid).Append(FieldDelimiter.Delimiter);
+            stringBuilder.Append(model.PeriodicIncreasePercentage).Append(FieldDelimiter.Delimiter);
+            stringBuilder.Append(model.AdministrativeCostPercentage).Append(FieldDelimiter.Delimiter);
+                        stringBuilder.Append(model.ProvidePeriodicIncrease).Append(FieldDelimiter.Delimiter);
             stringBuilder.Append(model.BusinessCaseStudyDone).Append(FieldDelimiter.Delimiter);
+            stringBuilder.Append(model.BusinessCaseDate).Append(FieldDelimiter.Delimiter);
+            stringBuilder.Append(model.LegalChallengesProcurement).Append(FieldDelimiter.Delimiter);
+            stringBuilder.Append(model.LegalChallengeDescription).Append(FieldDelimiter.Delimiter);
+            
+
+            stringBuilder.Append(model.AmmendedDate).Append(FieldDelimiter.Delimiter);
+
+             
+             
+            
             stringBuilder.Append(model.CapitalImprovementDescription).Append(FieldDelimiter.Delimiter);
             stringBuilder.Append(model.CapitalImprovementsOnStateProperty).Append(FieldDelimiter.Delimiter);
             stringBuilder.Append(model.CFDA).Append(FieldDelimiter.Delimiter);
@@ -126,9 +149,7 @@ New Ending Date
             stringBuilder.Append(model.Confidential).Append(FieldDelimiter.Delimiter);
             stringBuilder.Append(model.ConsideredBackToTheState).Append(FieldDelimiter.Delimiter);
             stringBuilder.Append(model.ContractInvolveFinancialAid).Append(FieldDelimiter.Delimiter);
-            stringBuilder.Append(model.ContractManagerPersonEmail).Append(FieldDelimiter.Delimiter);
-            stringBuilder.Append(model.ContractManagerPersonName).Append(FieldDelimiter.Delimiter);
-            stringBuilder.Append(model.ContractManagerPersonPhoneNumber).Append(FieldDelimiter.Delimiter);
+
             stringBuilder.Append(model.ContractStatus).Append(FieldDelimiter.Delimiter);
             stringBuilder.Append(model.ContractStatutoryAuthority).Append(FieldDelimiter.Delimiter);
             stringBuilder.Append(model.ContractTypeDescription).Append(FieldDelimiter.Delimiter);
@@ -136,18 +157,16 @@ New Ending Date
             stringBuilder.Append(model.GeneralComments).Append(FieldDelimiter.Delimiter);
             stringBuilder.Append(model.HourlyRate).Append(FieldDelimiter.Delimiter);
             stringBuilder.Append(model.IndirectCostInd).Append(FieldDelimiter.Delimiter);
-            stringBuilder.Append(model.LegalChallengeDescription).Append(FieldDelimiter.Delimiter);
-            stringBuilder.Append(model.LegalChallengesProcurement).Append(FieldDelimiter.Delimiter);
-            stringBuilder.Append(model.PeriodicIncreasePercentage).Append(FieldDelimiter.Delimiter);
+           
+            
             stringBuilder.Append(model.PreviouslyDoneByTheState).Append(FieldDelimiter.Delimiter);
-            stringBuilder.Append(model.ProcurementMethodDescription).Append(FieldDelimiter.Delimiter);
-            stringBuilder.Append(model.ProvidePeriodicIncrease).Append(FieldDelimiter.Delimiter);
+            
             stringBuilder.Append(model.PublicContractAppContractId).Append(FieldDelimiter.Delimiter);
             stringBuilder.Append(model.RecipientTypeCode).Append(FieldDelimiter.Delimiter);
             stringBuilder.Append(model.Recurring).Append(FieldDelimiter.Delimiter);
+
+
              
-            stringBuilder.Append(model.StartDate).Append(FieldDelimiter.Delimiter);
-            stringBuilder.Append(model.StateTermContractIdentifier).Append(FieldDelimiter.Delimiter);
             stringBuilder.Append(model.ValueCapitalImprovements).Append(FieldDelimiter.Delimiter);
             stringBuilder.Append(model.ValueUnamortizedCapitalImprovements).Append(FieldDelimiter.Delimiter);
 
@@ -159,7 +178,7 @@ New Ending Date
         {
             var model = new ContractExportModel();
             model.ContractId = entity.ContractID;
-            
+
             //todo move out of here
             var contractManager = await contractPersonQueryRepository.GetContractManagerForContract(entity.ContractID);
             if (contractManager != null)
@@ -203,14 +222,14 @@ New Ending Date
             model.RecipientTypeCode = entity.RecipientTypeCode.Filter(Santize.Chars);
             model.Recurring = entity.Recurring.ConvertNullableBoolToYesNo().Filter(Santize.Chars); //Do we export
 
-           
+
             if (entity.ServiceTypes != null)
             {
                 model.ServiceTypeName = entity.ServiceTypes.ServiceTypeName.Filter(Santize.Chars);
                 model.ServiceTypeShortTitle = entity.ServiceTypes.ShortTitle.Filter(Santize.Chars);
             }
-            
-            
+
+
             model.StartDate = entity.ContractStartDate.ConvertNullableDateToString().Filter(Santize.Chars);
             model.StateTermContractIdentifier = entity.StateTermContractIdentifier.Filter(Santize.Chars);
             model.ValueCapitalImprovements = entity.ValueCapitalImprovements.ConvertNullableDecimalToString().Filter(Santize.Chars);
@@ -223,7 +242,7 @@ New Ending Date
             return model;
         }
 
-        
+
         private string FormatContractNumber(string contractNumber)
         {
             //TODO, remove the first two characters

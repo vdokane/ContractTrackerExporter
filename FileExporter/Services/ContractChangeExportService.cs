@@ -45,14 +45,14 @@ namespace FileExporter.Services
         private ContractChangeExportModel MapEntityToModel(ContractChange entity)
         {
             var model = new ContractChangeExportModel();
-            model.Action = entity.Action;
+            model.Action = entity.Action.Filter(Santize.Chars); 
             model.AmendmentAmount = entity.AmendmentAmount;
             model.AmendmentEffectiveDate = entity.AmendmentEffectiveDate;
-            model.AmendmentReference = entity.AmendmentReference;
+            model.AmendmentReference = entity.AmendmentReference.Filter(Santize.Chars);
             model.ChangeDateExecuted = entity.ChangeDateExecuted;
-            model.ChangeDescription = entity.ChangeDescription;
+            model.ChangeDescription = entity.ChangeDescription.Filter(Santize.Chars);
             model.ContractChangeID = entity.ContractChangeID;
-            model.ContractChangeType = entity.ContractChangeType;
+            model.ContractChangeType = entity.ContractChangeType.Filter(Santize.Chars);
             model.ContractID = entity.ContractID;
             model.ExportDate = entity.ExportDate;
             model.NewEndingDate = entity.NewEndingDate;

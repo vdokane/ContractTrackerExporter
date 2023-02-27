@@ -15,6 +15,7 @@ namespace FileExporter.ExportModels
         public string ProcurementMethodDescription { get; set; } = string.Empty;
         public string StartDate { get; set; } = string.Empty;
         public string ExecuteDate { get; set; } = string.Empty;
+        public string AgencyServiceArea { get; set; } = string.Empty; //Tracker doesnt collect this??
         public string AmmendedDate { get; set; } = string.Empty;
         public string EndDate { get; set; } = string.Empty;
 

@@ -5,7 +5,7 @@
         internal static string Filter(this string str, List<char> charsToRemove)
         {
             if(string.IsNullOrEmpty(str))
-                return str;
+                return string.Empty;
 
             foreach (char c in charsToRemove)
             {
