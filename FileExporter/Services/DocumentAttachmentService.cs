@@ -11,11 +11,24 @@ namespace FileExporter.Services
         {
             this.documentQueryRepository = documentQueryRepository;
         }
-
-        public async Task<List<DocumentModel>> GetAllExportableDocumentsByDocumentId(int documentId)
+        //TODO, I might need to return one at a time so the file name will be preixed correctly or include the docattachemtnTypeId in the model
+        public async Task<List<DocumentModel>> GetAllExportableContractsByDocumentId(int documentId)
         {
             var contractAttachmeent = await documentQueryRepository.GetOriginalContract(documentId);
             var redactedContractAttachment = await documentQueryRepository.GetOriginalRedactedContract(documentId);
+
+            var response = new List<DocumentModel>();
+            if (contractAttachmeent != null)
+                response.Add(MapEntityToModel(contractAttachmeent));
+            if (redactedContractAttachment != null)
+                response.Add(MapEntityToModel(redactedContractAttachment));
+            return response;
+        }
+
+        public async Task<List<DocumentModel>> GetAllExportableProcurmentsByDocumentId(int documentId)
+        {
+            var contractAttachmeent = await documentQueryRepository.GetProcurement(documentId);
+            var redactedContractAttachment = await documentQueryRepository.GetProcurementRedacted(documentId);
 
             var response = new List<DocumentModel>();
             if (contractAttachmeent != null)

@@ -6,6 +6,7 @@ using FileExporter.Services;
 using System.Text;
 using Microsoft.Extensions.Configuration; //Install this from NuGet: Microsoft.Extensions.Configuration and Microsoft.Extensions.Configuration.Json
 using System.IO.Compression;
+using FileExporter.Infrastructure;
 
 const bool useMock = false;
 DateTime today = new DateTime(2023, 1, 25); //DateTime.Today; //TODO, use param 
@@ -27,10 +28,10 @@ var seeder = new Seeder();
 
 //TODO, this needs to be in appsettings and/or a comman line arg
 // Set a variable to the Documents path.
-const string docPath = @"E:\Export";
-const string attachmentPath = @"E:\Export\Documents";
-const string attachmentIndexPath = @"E:\Export\Documents\Index.txt";
-const string attachmentPathCompressed = @"E:\Export\DocumentsZipped.zip";
+const string docPath = @"C:\Export";
+const string attachmentPath = @"C:\Export\Documents";
+const string attachmentIndexPath = @"C:\Export\Documents\Index.txt";
+const string attachmentPathCompressed = @"C:\Export\DocumentsZipped.zip";
 //const string docPath = @"C:\Export";
 //"Data Source=.;Initial Catalog=Tracker;Integrated Security=True"
 
@@ -120,7 +121,7 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
 
 
             //Contract Attachments (Original contract and redacted only
-            var attachments = await documentAttachmentService.GetAllExportableDocumentsByDocumentId(contractModel.DocumentID);
+            var attachments = await documentAttachmentService.GetAllExportableContractsByDocumentId(contractModel.DocumentID);
             foreach (var attachment in attachments)
             {
                 //crap...sorta work. Also, should this go in the using for the output file? 2023/01/02
@@ -129,8 +130,41 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
                 //outputFile.WriteLine(fileNameAndpath); //Just for testing
 
                 File.WriteAllBytes(fileNameAndpath, attachment.Attachment);
+
+                var attachmentIndexModel = new AttachmentIndexModel();
+                
+                attachmentIndexModel.AttachmentType = AttachmentRowConstants.Contract; //I think?
+                //TODO how do I name deliverables?
+                attachmentIndexModel.ShortContractNumber = contractModel.ContractNumber; //How do I get short?
+                attachmentIndexModel.Unknown1 = string.Empty;
+                attachmentIndexModel.Unknown2 = string.Empty;
+                attachmentIndexModel.FileName = attachment.AttachmentFileName; //todo, test
+                attachmentIndexModel.OLO = "22000"; //To I need this
+                allAttachmentDocumentsModel.Add(attachmentIndexModel);
             }
 
+            //Procurment Documents
+            var procurements = await documentAttachmentService.GetAllExportableProcurmentsByDocumentId(contractModel.DocumentID);
+            foreach (var procurement in procurements)
+            {
+                //crap...sorta work. Also, should this go in the using for the output file? 2023/01/02
+                var fileNameAndpath = attachmentPath + @"\" + contractModel.ContractNumber + "-" + procurement.AttachmentFileName;
+
+                //outputFile.WriteLine(fileNameAndpath); //Just for testing
+
+                File.WriteAllBytes(fileNameAndpath, procurement.Attachment);
+
+                var attachmentIndexModel = new AttachmentIndexModel();
+
+                attachmentIndexModel.AttachmentType = AttachmentRowConstants.Procurement; //I think?
+                //TODO how do I name deliverables?
+                attachmentIndexModel.ShortContractNumber = contractModel.ContractNumber; //How do I get short?
+                attachmentIndexModel.Unknown1 = string.Empty;
+                attachmentIndexModel.Unknown2 = string.Empty;
+                attachmentIndexModel.FileName = procurement.AttachmentFileName; //todo, test
+                attachmentIndexModel.OLO = "22000"; //To I need this
+                allAttachmentDocumentsModel.Add(attachmentIndexModel);
+            }
 
             //ContractChange Attachments
             foreach (var contractChange in contractChanges)
@@ -146,7 +180,15 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
                 var fileNameAndpathOriginal = attachmentPath + @"\" + orginainlContractChangeAttachmentDocument.AttachmentFilename;
                 File.WriteAllBytes(fileNameAndpathOriginal, orginainlContractChangeAttachmentDocument.Attachment);
                 //outputFile.WriteLine(fileNameAndpathOriginal); //Just for testing
-
+                var attachmentIndexModelChange = new AttachmentIndexModel();
+                attachmentIndexModelChange.AttachmentType = AttachmentRowConstants.Change; //I think?
+                //TODO how do I name deliverables?
+                attachmentIndexModelChange.ShortContractNumber = contractModel.ContractNumber; //How do I get short?
+                attachmentIndexModelChange.Unknown1 = string.Empty;
+                attachmentIndexModelChange.Unknown2 = string.Empty;
+                attachmentIndexModelChange.FileName = orginainlContractChangeAttachmentDocument.AttachmentFilename; //todo, test
+                attachmentIndexModelChange.OLO = "22000"; //To I need this
+                allAttachmentDocumentsModel.Add(attachmentIndexModelChange);
 
                 if (redactedContractChangeAttachmentDocument == null)
                     continue;
@@ -154,6 +196,17 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
                 var fileNameAndpathRedact = attachmentPath + @"\" + redactedContractChangeAttachmentDocument.AttachmentFilename;
                 File.WriteAllBytes(fileNameAndpathRedact, redactedContractChangeAttachmentDocument.Attachment);
                 //outputFile.WriteLine(fileNameAndpathRedact);
+
+                var attachmentIndexModelChangeRedacted = new AttachmentIndexModel();
+
+                attachmentIndexModelChangeRedacted.AttachmentType = AttachmentRowConstants.Change; //I think?
+                //TODO how do I name deliverables?
+                attachmentIndexModelChangeRedacted.ShortContractNumber = contractModel.ContractNumber; //How do I get short?
+                attachmentIndexModelChangeRedacted.Unknown1 = string.Empty;
+                attachmentIndexModelChangeRedacted.Unknown2 = string.Empty;
+                attachmentIndexModelChangeRedacted.FileName = redactedContractChangeAttachmentDocument.AttachmentFilename; //todo, test
+                attachmentIndexModelChangeRedacted.OLO = "22000"; //To I need this
+                allAttachmentDocumentsModel.Add(attachmentIndexModelChangeRedacted);
             }
         }
     }

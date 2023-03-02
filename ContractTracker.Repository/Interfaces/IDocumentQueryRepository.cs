@@ -6,5 +6,7 @@ namespace ContractTracker.Repository.Interfaces
     {
         Task<DocumentAttachments?> GetOriginalContract(int documentId);
         Task<DocumentAttachments?> GetOriginalRedactedContract(int documentId);
+        Task<DocumentAttachments?>  GetProcurementRedacted(int documentId);
+        Task<DocumentAttachments?> GetProcurement(int documentId);
     }
 }
