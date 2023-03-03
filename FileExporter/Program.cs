@@ -11,14 +11,14 @@ using FileExporter.Infrastructure;
 const bool useMock = false;
 DateTime today = new DateTime(2023, 1, 25); //DateTime.Today; //TODO, use param 
 
-Console.WriteLine("Starting to export!");
+Console.WriteLine($"Starting to export! {DateTime.Now.ToString()}");
 
 
 var configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json").Build();
 var connectionString = configuration.GetConnectionString("TrackerConnection");
 if (connectionString == null)
 {
-    Console.WriteLine("Error Getting connectionString");
+    Console.WriteLine($"Error Getting connectionString {DateTime.Now.ToString()}");
     return;
 }
 var seeder = new Seeder();
@@ -34,6 +34,25 @@ const string attachmentIndexPath = @"C:\Export\Documents\Index.txt";
 const string attachmentPathCompressed = @"C:\Export\DocumentsZipped.zip";
 //const string docPath = @"C:\Export";
 //"Data Source=.;Initial Catalog=Tracker;Integrated Security=True"
+
+
+var fileName = new StringBuilder("Sample_Export_").Append(today.ToString("yyyyMMdd")).Append(".txt").ToString();
+
+//Clean up files
+if (File.Exists(Path.Combine(docPath, fileName)))
+{
+    Console.WriteLine($"About to delete file that already eists with same name {DateTime.Now}");
+    File.Delete(Path.Combine(docPath, fileName));
+}
+if (File.Exists(attachmentPathCompressed))
+{
+
+    Console.WriteLine($"About to delete ZIP file that already eists with same name {DateTime.Now}");
+    File.Delete(attachmentPathCompressed);
+} 
+
+
+
 
 var attachmentIndexService = new AttachmentIndexService();
 var allAttachmentDocumentsModel = new List<AttachmentIndexModel>();
@@ -58,18 +77,18 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
     var allContractsReadyToExport = await contractService.GetContractsForExporting(today);
     if (allContractsReadyToExport.Count == 0)
     {
-        Console.WriteLine("Done because no conracts to export");
+        Console.WriteLine($"Done because no conracts to export {DateTime.Now.ToString()}");
         return;
     }
 
     //This should probably come from a config
-    var fileName = new StringBuilder("Sample_Export_").Append(today.ToString("yyyyMMdd")).Append(".txt").ToString();
+     
 
     using (StreamWriter outputFile = new StreamWriter(Path.Combine(docPath, fileName)))
     {
         foreach (var contractModel in allContractsReadyToExport)
         {
-            Console.WriteLine($"Writing contract {contractModel.ContractNumber} to output file!");
+            Console.WriteLine($"Writing contract {contractModel.ContractNumber} to output file! {DateTime.Now.ToString()}");
 
 
 
@@ -84,6 +103,7 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
             foreach (var budgetRecord in allBudgetRecordsForContract)
             {
                 outputFile.WriteLine(budgetExportService.BuildBudgetRow(budgetRecord));
+                Console.WriteLine($"Writing budget {budgetRecord.BudgetId} to output file! {DateTime.Now.ToString()}");
             }
 
 
@@ -93,13 +113,14 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
             //todo query this contract 002Q3
             //WHERE IS SHORT TITLE COMING FROM? LEG-Cons|Legal Services-Consulting
             outputFile.WriteLine(vendorExportService.BuildVendorRow(contractModel));
-
+            Console.WriteLine($"Writing vendor {contractModel.VendorNumber} to output file! {DateTime.Now.ToString()}");
 
             //Deliverables
             var allDeliverablesForContract = await deliverableExportService.GetDeliverableModelsByContractId(contractModel.ContractId);
             foreach (var deliveryable in allDeliverablesForContract)
             {
                 outputFile.WriteLine(deliverableExportService.BuildDeliverableRow(deliveryable));
+                Console.WriteLine($"Writing deliverable {deliveryable.DeliverableId} to output file! {DateTime.Now.ToString()}");
             }
 
 
@@ -108,6 +129,7 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
             foreach (var contractChange in contractChanges)
             {
                 outputFile.WriteLine(contractChangeExportService.BuildContractChangeRow(contractChange));
+                Console.WriteLine($"Writing change {contractChange.ContractChangeID} to output file! {DateTime.Now.ToString()}");
             }
 
 
@@ -130,6 +152,7 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
                 //outputFile.WriteLine(fileNameAndpath); //Just for testing
 
                 File.WriteAllBytes(fileNameAndpath, attachment.Attachment);
+                Console.WriteLine($"Writing contract attachment {attachment.AttachmentFileName} to output file! {DateTime.Now.ToString()}");
 
                 var attachmentIndexModel = new AttachmentIndexModel();
                 
@@ -153,7 +176,7 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
                 //outputFile.WriteLine(fileNameAndpath); //Just for testing
 
                 File.WriteAllBytes(fileNameAndpath, procurement.Attachment);
-
+                Console.WriteLine($"Writing procurement attachment {procurement.AttachmentFileName} to output file! {DateTime.Now.ToString()}");
                 var attachmentIndexModel = new AttachmentIndexModel();
 
                 attachmentIndexModel.AttachmentType = AttachmentRowConstants.Procurement; //I think?
@@ -179,6 +202,8 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
 
                 var fileNameAndpathOriginal = attachmentPath + @"\" + orginainlContractChangeAttachmentDocument.AttachmentFilename;
                 File.WriteAllBytes(fileNameAndpathOriginal, orginainlContractChangeAttachmentDocument.Attachment);
+                Console.WriteLine($"Writing change attachment {orginainlContractChangeAttachmentDocument.AttachmentFilename} to output file! {DateTime.Now.ToString()}");
+
                 //outputFile.WriteLine(fileNameAndpathOriginal); //Just for testing
                 var attachmentIndexModelChange = new AttachmentIndexModel();
                 attachmentIndexModelChange.AttachmentType = AttachmentRowConstants.Change; //I think?
@@ -195,7 +220,7 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
 
                 var fileNameAndpathRedact = attachmentPath + @"\" + redactedContractChangeAttachmentDocument.AttachmentFilename;
                 File.WriteAllBytes(fileNameAndpathRedact, redactedContractChangeAttachmentDocument.Attachment);
-                //outputFile.WriteLine(fileNameAndpathRedact);
+                Console.WriteLine($"Writing change redacted attachment {redactedContractChangeAttachmentDocument.AttachmentFilename} to output file! {DateTime.Now.ToString()}");
 
                 var attachmentIndexModelChangeRedacted = new AttachmentIndexModel();
 
@@ -214,6 +239,7 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
 }
 
 //Create the index file to be zipped up with the attachments
+Console.WriteLine($"Creating Index.txt {DateTime.Now}");
 using (StreamWriter attachmentIndexFile = new StreamWriter(attachmentIndexPath))
 {
     foreach (var attacmentModel in allAttachmentDocumentsModel)
@@ -223,10 +249,10 @@ using (StreamWriter attachmentIndexFile = new StreamWriter(attachmentIndexPath))
     }
 
 }
-Console.WriteLine("About to zip");
-https://stackoverflow.com/questions/905654/zip-folder-in-c-sharp
+Console.WriteLine($"Creating zipfile {DateTime.Now}");
+//https://stackoverflow.com/questions/905654/zip-folder-in-c-sharp
 ZipFile.CreateFromDirectory(attachmentPath, attachmentPathCompressed);
 
 
-Console.WriteLine($"Done");
+Console.WriteLine($"Done {DateTime.Now}");
 
