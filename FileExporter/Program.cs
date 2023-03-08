@@ -4,7 +4,7 @@ using FileExporter.ExportModels;
 using FileExporter.Factory;
 using FileExporter.Services;
 using System.Text;
-using Microsoft.Extensions.Configuration; //Install this from NuGet: Microsoft.Extensions.Configuration and Microsoft.Extensions.Configuration.Json
+ 
 using System.IO.Compression;
 using FileExporter.Infrastructure;
 
@@ -13,41 +13,54 @@ DateTime today = new DateTime(2023, 1, 25); //DateTime.Today; //TODO, use param
 
 Console.WriteLine($"Starting to export! {DateTime.Now.ToString()}");
 
-
-var configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json").Build();
-var connectionString = configuration.GetConnectionString("TrackerConnection");
+var configurationService = new ConfigurationService();
+var connectionString = configurationService.GetConnectionString();
 if (connectionString == null)
 {
     Console.WriteLine($"Error Getting connectionString {DateTime.Now.ToString()}");
     return;
 }
+var docPath = configurationService.GetDocPath();
+if (docPath == null)
+{
+    Console.WriteLine($"Error Getting docPath {DateTime.Now.ToString()}");
+    return;
+}
+var attachmentPath = configurationService.GetAttachmentPath();
+if (attachmentPath == null)
+{
+    Console.WriteLine($"Error Getting attachmentPath {DateTime.Now.ToString()}");
+    return;
+}
+var attachmentIndexPath = configurationService.GetAattachmentIndexPath();
+if (attachmentIndexPath == null)
+{
+    Console.WriteLine($"Error Getting attachmentIndexPath {DateTime.Now.ToString()}");
+    return;
+}
+var attachmentPathCompressed = configurationService.GetAattachmentPathCompressed();
+if (attachmentPathCompressed == null)
+{
+    Console.WriteLine($"Error Getting attachmentPathCompressed {DateTime.Now.ToString()}");
+    return;
+}
 var seeder = new Seeder();
-//var contractModel = seeder.SeedContractModel();
-//var budgetLineItems = seeder.SeedBudgets();
-//C:\Users\vdoka\source\repos\FileExporter\FileExporter\file
-
-//TODO, this needs to be in appsettings and/or a comman line arg
-// Set a variable to the Documents path.
-const string docPath = @"C:\Export";
-const string attachmentPath = @"C:\Export\Documents";
-const string attachmentIndexPath = @"C:\Export\Documents\Index.txt";
-const string attachmentPathCompressed = @"C:\Export\DocumentsZipped.zip";
-//const string docPath = @"C:\Export";
-//"Data Source=.;Initial Catalog=Tracker;Integrated Security=True"
 
 
+ 
+ 
 var fileName = new StringBuilder("Sample_Export_").Append(today.ToString("yyyyMMdd")).Append(".txt").ToString();
 
 //Clean up files
 if (File.Exists(Path.Combine(docPath, fileName)))
 {
-    Console.WriteLine($"About to delete file that already eists with same name {DateTime.Now}");
+    Console.WriteLine($"About to delete file that already exists with same name {DateTime.Now}");
     File.Delete(Path.Combine(docPath, fileName));
 }
 if (File.Exists(attachmentPathCompressed))
 {
 
-    Console.WriteLine($"About to delete ZIP file that already eists with same name {DateTime.Now}");
+    Console.WriteLine($"About to delete ZIP file that already exists with same name {DateTime.Now}");
     File.Delete(attachmentPathCompressed);
 } 
 
