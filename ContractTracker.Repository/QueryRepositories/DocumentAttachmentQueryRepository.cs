@@ -19,22 +19,22 @@ namespace ContractTracker.Repository.QueryRepositories
             context = unitOfWork.GetContext();
         }
 
-        public async Task<DocumentAttachments?> GetOriginalContract(int documentId)
+        public async Task<DocumentAttachments?> GetOriginalContractDocument(int documentId)
         {
             return await GetDocumentAttachment(documentId,  OriginalContractDocAttachmentTypeId);
         }
 
-        public async Task<DocumentAttachments?> GetOriginalRedactedContract(int documentId)
+        public async Task<DocumentAttachments?> GetOriginalRedactedContractDocument(int documentId)
         {
             return await GetDocumentAttachment(documentId, OriginalRedactedContractDocAttachmentTypeId);
         }
 
-        public async Task<DocumentAttachments?> GetProcurement(int documentId)
+        public async Task<DocumentAttachments?> GetProcurementDocument(int documentId)
         {
            return await GetDocumentAttachment(documentId, ProcurementDocumentsDocAttachmentTypeId);
         }
 
-        public async Task<DocumentAttachments?> GetProcurementRedacted(int documentId)
+        public async Task<DocumentAttachments?> GetProcurementRedactedDocument(int documentId)
         {
             return await GetDocumentAttachment(documentId, ProcurementRedactedDocumentsDocAttachmentTypeId);
         }

@@ -4,9 +4,9 @@ namespace ContractTracker.Repository.Interfaces
 {
     public interface IDocumentQueryRepository
     {
-        Task<DocumentAttachments?> GetOriginalContract(int documentId);
-        Task<DocumentAttachments?> GetOriginalRedactedContract(int documentId);
-        Task<DocumentAttachments?>  GetProcurementRedacted(int documentId);
-        Task<DocumentAttachments?> GetProcurement(int documentId);
+        Task<DocumentAttachments?> GetOriginalContractDocument(int documentId);
+        Task<DocumentAttachments?> GetOriginalRedactedContractDocument(int documentId);
+        Task<DocumentAttachments?> GetProcurementDocument(int documentId);
+        Task<DocumentAttachments?> GetProcurementRedactedDocument(int documentId);
     }
 }
