@@ -45,5 +45,6 @@ namespace ContractTracker.Repository.Context
 
         public DbSet<ContractTrackingHistory> ContractTrackingHistory => Set<ContractTrackingHistory>();
         public DbSet<ServiceTypes> ServiceTypes => Set<ServiceTypes>();
+        public DbSet<ExportLog> ExportLog => Set<ExportLog>();
     }
 }
