@@ -82,7 +82,7 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
     var deliverableExportService = businessServiceFactory.BuildDeliverableExportService(useMock);
     var contractChangeExportService = businessServiceFactory.BuildContractChangeExportService(useMock);
     var contractChangeAttachmentExportService = businessServiceFactory.BuildContractChangeAttachmentExportService(useMock);
-
+    var exportLogService = businessServiceFactory.BuildExportLogService();
     //Do work starts here
 
 
@@ -91,6 +91,7 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
     if (allContractsReadyToExport.Count == 0)
     {
         Console.WriteLine($"Done because no conracts to export {DateTime.Now.ToString()}");
+        await exportLogService.InsertExportLog(new ExportLogRequestModel() { ContractNumber = string.Empty, InsertDate = DateTime.Now, Step = ExportSteps.NothingToExport, StepDescription = "Nothing to export" });
         return;
     }
 
@@ -102,7 +103,7 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
         foreach (var contractModel in allContractsReadyToExport)
         {
             Console.WriteLine($"Writing contract {contractModel.ContractNumber} to output file! {DateTime.Now.ToString()}");
-
+            await exportLogService.InsertExportLog(new ExportLogRequestModel() { ContractNumber = contractModel.ContractNumber, InsertDate = DateTime.Now, Step = ExportSteps.Contract, StepDescription = "Exporting contract" });
 
 
             //Main contract record
@@ -117,6 +118,7 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
             {
                 outputFile.WriteLine(budgetExportService.BuildBudgetRow(budgetRecord));
                 Console.WriteLine($"Writing budget {budgetRecord.BudgetId} to output file! {DateTime.Now.ToString()}");
+                await exportLogService.InsertExportLog(new ExportLogRequestModel() { ContractNumber = contractModel.ContractNumber, InsertDate = DateTime.Now, Step = ExportSteps.Budget, StepDescription = "Exporting budget" });
             }
 
 
@@ -127,6 +129,7 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
             //WHERE IS SHORT TITLE COMING FROM? LEG-Cons|Legal Services-Consulting
             outputFile.WriteLine(vendorExportService.BuildVendorRow(contractModel));
             Console.WriteLine($"Writing vendor {contractModel.VendorNumber} to output file! {DateTime.Now.ToString()}");
+            await exportLogService.InsertExportLog(new ExportLogRequestModel() { ContractNumber = contractModel.ContractNumber, InsertDate = DateTime.Now, Step = ExportSteps.Vendor, StepDescription = "Exporting vendor" });
 
             //Deliverables
             var allDeliverablesForContract = await deliverableExportService.GetDeliverableModelsByContractId(contractModel.ContractId);
@@ -134,6 +137,7 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
             {
                 outputFile.WriteLine(deliverableExportService.BuildDeliverableRow(deliveryable));
                 Console.WriteLine($"Writing deliverable {deliveryable.DeliverableId} to output file! {DateTime.Now.ToString()}");
+                await exportLogService.InsertExportLog(new ExportLogRequestModel() { ContractNumber = contractModel.ContractNumber, InsertDate = DateTime.Now, Step = ExportSteps.Deliverable, StepDescription = "Exporting deliverable" });
             }
 
 
@@ -143,6 +147,7 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
             {
                 outputFile.WriteLine(contractChangeExportService.BuildContractChangeRow(contractChange));
                 Console.WriteLine($"Writing change {contractChange.ContractChangeID} to output file! {DateTime.Now.ToString()}");
+                await exportLogService.InsertExportLog(new ExportLogRequestModel() { ContractNumber = contractModel.ContractNumber, InsertDate = DateTime.Now, Step = ExportSteps.Change, StepDescription = "Exporting contract change" });
             }
 
 
@@ -166,6 +171,8 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
 
                 File.WriteAllBytes(fileNameAndpath, attachment.Attachment);
                 Console.WriteLine($"Writing contract attachment {attachment.AttachmentFileName} to output file! {DateTime.Now.ToString()}");
+                await exportLogService.InsertExportLog(new ExportLogRequestModel() { ContractNumber = contractModel.ContractNumber, InsertDate = DateTime.Now, Step = ExportSteps.ContractAttachments, StepDescription = "Exporting contract document" });
+
 
                 var attachmentIndexModel = new AttachmentIndexModel();
                 
@@ -190,8 +197,9 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
 
                 File.WriteAllBytes(fileNameAndpath, procurement.Attachment);
                 Console.WriteLine($"Writing procurement attachment {procurement.AttachmentFileName} to output file! {DateTime.Now.ToString()}");
-                var attachmentIndexModel = new AttachmentIndexModel();
+                await exportLogService.InsertExportLog(new ExportLogRequestModel() { ContractNumber = contractModel.ContractNumber, InsertDate = DateTime.Now, Step = ExportSteps.ProcurementAttachments, StepDescription = "Exporting procument document" });
 
+                var attachmentIndexModel = new AttachmentIndexModel();
                 attachmentIndexModel.AttachmentType = AttachmentRowConstants.Procurement; //I think?
                 //TODO how do I name deliverables?
                 attachmentIndexModel.ShortContractNumber = contractModel.ContractNumber; //How do I get short?
@@ -216,6 +224,7 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
                 var fileNameAndpathOriginal = attachmentPath + @"\" + orginainlContractChangeAttachmentDocument.AttachmentFilename;
                 File.WriteAllBytes(fileNameAndpathOriginal, orginainlContractChangeAttachmentDocument.Attachment);
                 Console.WriteLine($"Writing change attachment {orginainlContractChangeAttachmentDocument.AttachmentFilename} to output file! {DateTime.Now.ToString()}");
+                await exportLogService.InsertExportLog(new ExportLogRequestModel() { ContractNumber = contractModel.ContractNumber, InsertDate = DateTime.Now, Step = ExportSteps.ChangeAttachments, StepDescription = "Exporting change document" });
 
                 //outputFile.WriteLine(fileNameAndpathOriginal); //Just for testing
                 var attachmentIndexModelChange = new AttachmentIndexModel();
@@ -234,9 +243,9 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
                 var fileNameAndpathRedact = attachmentPath + @"\" + redactedContractChangeAttachmentDocument.AttachmentFilename;
                 File.WriteAllBytes(fileNameAndpathRedact, redactedContractChangeAttachmentDocument.Attachment);
                 Console.WriteLine($"Writing change redacted attachment {redactedContractChangeAttachmentDocument.AttachmentFilename} to output file! {DateTime.Now.ToString()}");
+                await exportLogService.InsertExportLog(new ExportLogRequestModel() { ContractNumber = contractModel.ContractNumber, InsertDate = DateTime.Now, Step = ExportSteps.ChangeAttachments, StepDescription = "Exporting redacted change document" });
 
                 var attachmentIndexModelChangeRedacted = new AttachmentIndexModel();
-
                 attachmentIndexModelChangeRedacted.AttachmentType = AttachmentRowConstants.Change; //I think?
                 //TODO how do I name deliverables?
                 attachmentIndexModelChangeRedacted.ShortContractNumber = contractModel.ContractNumber; //How do I get short?
@@ -253,6 +262,7 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
 
 //Create the index file to be zipped up with the attachments
 Console.WriteLine($"Creating Index.txt {DateTime.Now}");
+
 using (StreamWriter attachmentIndexFile = new StreamWriter(attachmentIndexPath))
 {
     foreach (var attacmentModel in allAttachmentDocumentsModel)
@@ -263,6 +273,7 @@ using (StreamWriter attachmentIndexFile = new StreamWriter(attachmentIndexPath))
 
 }
 Console.WriteLine($"Creating zipfile {DateTime.Now}");
+
 //https://stackoverflow.com/questions/905654/zip-folder-in-c-sharp
 ZipFile.CreateFromDirectory(attachmentPath, attachmentPathCompressed);
 

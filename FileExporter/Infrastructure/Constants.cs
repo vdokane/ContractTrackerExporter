@@ -1,6 +1,4 @@
-﻿
-
-namespace FileExporter.Infrastructure
+﻿namespace FileExporter.Infrastructure
 {
     internal class RowConstants
     {
@@ -36,4 +34,16 @@ namespace FileExporter.Infrastructure
         public const string Change = "???";
     }
 
+    public enum ExportSteps
+    {
+        NothingToExport,
+        Contract,
+        Vendor,
+        Budget,
+        Deliverable,
+        Change,
+        ContractAttachments,
+        ProcurementAttachments,
+        ChangeAttachments
+    }
 }

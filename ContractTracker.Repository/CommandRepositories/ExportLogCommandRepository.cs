@@ -2,7 +2,6 @@
 using ContractTracker.Repository.EntityModels;
 using ContractTracker.Repository.Interfaces;
 using ContractTracker.Repository.Implementation;
-using Microsoft.EntityFrameworkCore;
 
 namespace ContractTracker.Repository.CommandRepositories
 {

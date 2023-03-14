@@ -1,4 +1,5 @@
-﻿using ContractTracker.Repository.Implementation;
+﻿using ContractTracker.Repository.CommandRepositories;
+using ContractTracker.Repository.Implementation;
 using ContractTracker.Repository.Interfaces;
 using ContractTracker.Repository.MockQueryRepositories;
 using ContractTracker.Repository.QueryRepositories;
@@ -95,6 +96,12 @@ namespace FileExporter.Factory
         {
             var repo = new ContractChangeAttachmentRepository(unitOfWork);
             return new ContractChangeAttachmentExportService(repo);
+        }
+
+        public ExportLogService BuildExportLogService()
+        {
+            var repo = new ExportLogCommandRepository(unitOfWork);
+            return new ExportLogService(repo);
         }
 
     }
