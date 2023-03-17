@@ -16,24 +16,25 @@ namespace FileExporter.Infrastructure
         }
         public string? GetDocPath()
         {
-            var value = configuration.GetConnectionString("DocPath");
-            return value;
+            return GetSectionGracefully("DocPath");
         }
         public string? GetAttachmentPath()
         {
-            var value = configuration.GetConnectionString("AttachmentPath");
-            return value;
+            return GetSectionGracefully("AttachmentPath");
         }
         public string? GetAattachmentIndexPath()
         {
-            var value = configuration.GetConnectionString("AattachmentIndexPath");
-            return value;
+            return GetSectionGracefully("AattachmentIndexPath");
         }
         public string? GetAattachmentPathCompressed()
         {
-            var value = configuration.GetConnectionString("AattachmentPathCompressed");
-            return value;
+            return GetSectionGracefully("AattachmentPathCompressed");
         }
 
+        private string GetSectionGracefully(string sectionName)
+        {
+            var section = configuration.GetSection(sectionName);
+            return (section.Exists()) ? section.Value : string.Empty;
+        }
     }
 }

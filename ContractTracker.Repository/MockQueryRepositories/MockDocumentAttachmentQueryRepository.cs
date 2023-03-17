@@ -1,9 +1,7 @@
 ﻿using ContractTracker.Repository.Context;
 using ContractTracker.Repository.EntityModels;
 using ContractTracker.Repository.Interfaces;
-
 using System.Text;
-using System.Threading.Tasks;
 using ContractTracker.Repository.Implementation;
 
 namespace ContractTracker.Repository.MockQueryRepositories
@@ -48,6 +46,14 @@ namespace ContractTracker.Repository.MockQueryRepositories
                  markedForDeletion = false,
                  TimeSTamp = DateTime.Now
              });
+        }
+        public async Task<DocumentAttachments?> GetProcurementDocument(int documentId)
+        {
+            return null;
+        }
+        public async Task<DocumentAttachments?> GetProcurementRedactedDocument(int documentId)
+        {
+            return null;
         }
     }
 }

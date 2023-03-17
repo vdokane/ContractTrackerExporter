@@ -91,7 +91,9 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
     if (allContractsReadyToExport.Count == 0)
     {
         Console.WriteLine($"Done because no conracts to export {DateTime.Now.ToString()}");
-        await exportLogService.InsertExportLog(new ExportLogRequestModel() { ContractNumber = string.Empty, InsertDate = DateTime.Now, Step = ExportSteps.NothingToExport, StepDescription = "Nothing to export" });
+        await exportLogService.InsertExportLog(new ExportLogRequestModel() { ContractNumber = string.Empty, 
+                                                    InsertDate = DateTime.Now, Step = ExportSteps.NothingToExport, 
+                                                    StepDescription = "Nothing to export" });
         return;
     }
 
@@ -103,7 +105,9 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
         foreach (var contractModel in allContractsReadyToExport)
         {
             Console.WriteLine($"Writing contract {contractModel.ContractNumber} to output file! {DateTime.Now.ToString()}");
-            await exportLogService.InsertExportLog(new ExportLogRequestModel() { ContractNumber = contractModel.ContractNumber, InsertDate = DateTime.Now, Step = ExportSteps.Contract, StepDescription = "Exporting contract" });
+            await exportLogService.InsertExportLog(new ExportLogRequestModel() { ContractNumber = contractModel.ContractNumber, 
+                                                            InsertDate = DateTime.Now, Step = ExportSteps.Contract, 
+                                                            StepDescription = $"Exporting contract {contractModel.ContractId}" });
 
 
             //Main contract record
@@ -118,7 +122,9 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
             {
                 outputFile.WriteLine(budgetExportService.BuildBudgetRow(budgetRecord));
                 Console.WriteLine($"Writing budget {budgetRecord.BudgetId} to output file! {DateTime.Now.ToString()}");
-                await exportLogService.InsertExportLog(new ExportLogRequestModel() { ContractNumber = contractModel.ContractNumber, InsertDate = DateTime.Now, Step = ExportSteps.Budget, StepDescription = "Exporting budget" });
+                await exportLogService.InsertExportLog(new ExportLogRequestModel() { ContractNumber = contractModel.ContractNumber, 
+                                                                                     InsertDate = DateTime.Now, Step = ExportSteps.Budget, 
+                                                                                     StepDescription = $"Exporting budget, budget id: {budgetRecord.BudgetId}" });
             }
 
 
@@ -129,15 +135,19 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
             //WHERE IS SHORT TITLE COMING FROM? LEG-Cons|Legal Services-Consulting
             outputFile.WriteLine(vendorExportService.BuildVendorRow(contractModel));
             Console.WriteLine($"Writing vendor {contractModel.VendorNumber} to output file! {DateTime.Now.ToString()}");
-            await exportLogService.InsertExportLog(new ExportLogRequestModel() { ContractNumber = contractModel.ContractNumber, InsertDate = DateTime.Now, Step = ExportSteps.Vendor, StepDescription = "Exporting vendor" });
+            await exportLogService.InsertExportLog(new ExportLogRequestModel() { ContractNumber = contractModel.ContractNumber, 
+                                                                                    InsertDate = DateTime.Now, Step = ExportSteps.Vendor, 
+                                                                                    StepDescription = $"Exporting vendor, vendor number: {contractModel.VendorNumber} " });
 
             //Deliverables
             var allDeliverablesForContract = await deliverableExportService.GetDeliverableModelsByContractId(contractModel.ContractId);
-            foreach (var deliveryable in allDeliverablesForContract)
+            foreach (var deliverable in allDeliverablesForContract)
             {
-                outputFile.WriteLine(deliverableExportService.BuildDeliverableRow(deliveryable));
-                Console.WriteLine($"Writing deliverable {deliveryable.DeliverableId} to output file! {DateTime.Now.ToString()}");
-                await exportLogService.InsertExportLog(new ExportLogRequestModel() { ContractNumber = contractModel.ContractNumber, InsertDate = DateTime.Now, Step = ExportSteps.Deliverable, StepDescription = "Exporting deliverable" });
+                outputFile.WriteLine(deliverableExportService.BuildDeliverableRow(deliverable));
+                Console.WriteLine($"Writing deliverable {deliverable.DeliverableId} to output file! {DateTime.Now.ToString()}");
+                await exportLogService.InsertExportLog(new ExportLogRequestModel() { ContractNumber = contractModel.ContractNumber, 
+                                                                                    InsertDate = DateTime.Now, Step = ExportSteps.Deliverable, 
+                                                                                    StepDescription = $"Exporting deliverable, deliverable id: {deliverable.DeliverableId}" });
             }
 
 
@@ -147,16 +157,11 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
             {
                 outputFile.WriteLine(contractChangeExportService.BuildContractChangeRow(contractChange));
                 Console.WriteLine($"Writing change {contractChange.ContractChangeID} to output file! {DateTime.Now.ToString()}");
-                await exportLogService.InsertExportLog(new ExportLogRequestModel() { ContractNumber = contractModel.ContractNumber, InsertDate = DateTime.Now, Step = ExportSteps.Change, StepDescription = "Exporting contract change" });
+                await exportLogService.InsertExportLog(new ExportLogRequestModel() { ContractNumber = contractModel.ContractNumber, 
+                    InsertDate = DateTime.Now, 
+                    Step = ExportSteps.Change, 
+                    StepDescription = $"Exporting contract change, change id:{contractChange.ContractChangeID}" });
             }
-
-
-
-            //TODO 2023/02/17
-            //  create Index.txt
-            //  CN-220000-T00B1J.pdf
-            //CN|220000|00B1J||CN-220000-T00B1J.pdf|| 
-
 
 
 
@@ -171,18 +176,19 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
 
                 File.WriteAllBytes(fileNameAndpath, attachment.Attachment);
                 Console.WriteLine($"Writing contract attachment {attachment.AttachmentFileName} to output file! {DateTime.Now.ToString()}");
-                await exportLogService.InsertExportLog(new ExportLogRequestModel() { ContractNumber = contractModel.ContractNumber, InsertDate = DateTime.Now, Step = ExportSteps.ContractAttachments, StepDescription = "Exporting contract document" });
+                await exportLogService.InsertExportLog(new ExportLogRequestModel() { ContractNumber = contractModel.ContractNumber, 
+                    InsertDate = DateTime.Now, Step = ExportSteps.ContractAttachments, 
+                    StepDescription = $"Exporting contract document, file name: {attachment.AttachmentFileName}" });
 
 
                 var attachmentIndexModel = new AttachmentIndexModel();
                 
                 attachmentIndexModel.AttachmentType = AttachmentRowConstants.Contract; //I think?
-                //TODO how do I name deliverables?
                 attachmentIndexModel.ShortContractNumber = contractModel.ContractNumber; //How do I get short?
                 attachmentIndexModel.Unknown1 = string.Empty;
                 attachmentIndexModel.Unknown2 = string.Empty;
                 attachmentIndexModel.FileName = attachment.AttachmentFileName; //todo, test
-                attachmentIndexModel.OLO = "22000"; //To I need this
+                attachmentIndexModel.OLO = "22000"; //This needs to be a constant
                 allAttachmentDocumentsModel.Add(attachmentIndexModel);
             }
 
@@ -197,7 +203,9 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
 
                 File.WriteAllBytes(fileNameAndpath, procurement.Attachment);
                 Console.WriteLine($"Writing procurement attachment {procurement.AttachmentFileName} to output file! {DateTime.Now.ToString()}");
-                await exportLogService.InsertExportLog(new ExportLogRequestModel() { ContractNumber = contractModel.ContractNumber, InsertDate = DateTime.Now, Step = ExportSteps.ProcurementAttachments, StepDescription = "Exporting procument document" });
+                await exportLogService.InsertExportLog(new ExportLogRequestModel() { ContractNumber = contractModel.ContractNumber, 
+                    InsertDate = DateTime.Now, Step = ExportSteps.ProcurementAttachments, 
+                    StepDescription = $"Exporting procument document, file name {procurement.AttachmentFileName}" });
 
                 var attachmentIndexModel = new AttachmentIndexModel();
                 attachmentIndexModel.AttachmentType = AttachmentRowConstants.Procurement; //I think?
@@ -224,7 +232,9 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
                 var fileNameAndpathOriginal = attachmentPath + @"\" + orginainlContractChangeAttachmentDocument.AttachmentFilename;
                 File.WriteAllBytes(fileNameAndpathOriginal, orginainlContractChangeAttachmentDocument.Attachment);
                 Console.WriteLine($"Writing change attachment {orginainlContractChangeAttachmentDocument.AttachmentFilename} to output file! {DateTime.Now.ToString()}");
-                await exportLogService.InsertExportLog(new ExportLogRequestModel() { ContractNumber = contractModel.ContractNumber, InsertDate = DateTime.Now, Step = ExportSteps.ChangeAttachments, StepDescription = "Exporting change document" });
+                await exportLogService.InsertExportLog(new ExportLogRequestModel() { ContractNumber = contractModel.ContractNumber, 
+                                                                        InsertDate = DateTime.Now, Step = ExportSteps.ChangeAttachments, 
+                                                                        StepDescription = $"Exporting change document, file name: {orginainlContractChangeAttachmentDocument.AttachmentFilename}" });
 
                 //outputFile.WriteLine(fileNameAndpathOriginal); //Just for testing
                 var attachmentIndexModelChange = new AttachmentIndexModel();
@@ -243,7 +253,9 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
                 var fileNameAndpathRedact = attachmentPath + @"\" + redactedContractChangeAttachmentDocument.AttachmentFilename;
                 File.WriteAllBytes(fileNameAndpathRedact, redactedContractChangeAttachmentDocument.Attachment);
                 Console.WriteLine($"Writing change redacted attachment {redactedContractChangeAttachmentDocument.AttachmentFilename} to output file! {DateTime.Now.ToString()}");
-                await exportLogService.InsertExportLog(new ExportLogRequestModel() { ContractNumber = contractModel.ContractNumber, InsertDate = DateTime.Now, Step = ExportSteps.ChangeAttachments, StepDescription = "Exporting redacted change document" });
+                await exportLogService.InsertExportLog(new ExportLogRequestModel() { ContractNumber = contractModel.ContractNumber, 
+                                                InsertDate = DateTime.Now, Step = ExportSteps.ChangeAttachments, 
+                                                StepDescription = $"Exporting redacted change document, file name: {redactedContractChangeAttachmentDocument.AttachmentFilename}" });
 
                 var attachmentIndexModelChangeRedacted = new AttachmentIndexModel();
                 attachmentIndexModelChangeRedacted.AttachmentType = AttachmentRowConstants.Change; //I think?
@@ -262,6 +274,7 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
 
 //Create the index file to be zipped up with the attachments
 Console.WriteLine($"Creating Index.txt {DateTime.Now}");
+
 
 using (StreamWriter attachmentIndexFile = new StreamWriter(attachmentIndexPath))
 {
