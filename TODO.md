@@ -1,3 +1,10 @@
+Add the other rows
+CFDA|16.838
+Did I name it correct?
+Once the spreadsheet data is verified, save the file in the format and with the prescribed file name “Batch_OLO number_date code” (e.g. Batch_830000_2012_03_31) so the FACTS web application can process.
+
+I searched the sample file and did not see: MAIN|NONE
+
 APPLY TABLE CHANGES TO YOUR LAPTOP
 a) The folder thast got sent was Export[370].zip.. what does that name mean?
 1) Get proc docs and figure out how they are named/exported and set up in index (emailed about this again 2023/03/02)

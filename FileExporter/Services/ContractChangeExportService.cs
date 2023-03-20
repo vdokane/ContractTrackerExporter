@@ -28,7 +28,7 @@ namespace FileExporter.Services
                 stringBuilder.Append(SaveConstants.Update).Append(FieldDelimiter.Delimiter);
             else
                 stringBuilder.Append(SaveConstants.Insert).Append(FieldDelimiter.Delimiter);
-           //TPDO order
+           
             stringBuilder.Append(model.Action.ToString()).Append(FieldDelimiter.Delimiter);
             stringBuilder.Append(model.AmendmentAmount.ToString()).Append(FieldDelimiter.Delimiter);
             stringBuilder.Append(model.AmendmentEffectiveDate.ToShortTimeString()).Append(FieldDelimiter.Delimiter);
@@ -37,8 +37,6 @@ namespace FileExporter.Services
             stringBuilder.Append(model.ChangeDescription.ToString()).Append(FieldDelimiter.Delimiter);
             stringBuilder.Append(model.ContractChangeType.ToString()).Append(FieldDelimiter.Delimiter);
             stringBuilder.Append(model.NewEndingDate.ToString()).Append(FieldDelimiter.Delimiter);
-            //stringBuilder.Append(model.xxx.ToString()).Append(FieldDelimiter.Delimiter);
-            //sstringBuilder.Append(model.xxx.ToString()).Append(FieldDelimiter.Delimiter);
 
             return stringBuilder.ToString();
         }

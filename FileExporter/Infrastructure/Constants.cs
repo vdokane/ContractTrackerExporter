@@ -7,12 +7,15 @@
         public const string Budget = "BUGT";
         public const string Deliverable = "DLBL";
         public const string Change = "CTCH";
+        public const string CSFA = "CSFA";
+        public const string CFDA = "CFDA";
     }
 
     internal class SaveConstants
     {
         public const string Update = "UPD";
-        public const string Insert = "???";
+        public const string Insert = "ADD";
+        public const string NONE = "NONE";  //When Updating/Adding an existing contract/grant disbursement agreement’s children.
     }
 
     internal class FieldDelimiter
@@ -44,6 +47,8 @@
         Change,
         ContractAttachments,
         ProcurementAttachments,
-        ChangeAttachments
+        ChangeAttachments,
+        CSFA,
+        CFDA
     }
 }

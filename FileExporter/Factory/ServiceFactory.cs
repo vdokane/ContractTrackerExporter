@@ -104,5 +104,14 @@ namespace FileExporter.Factory
             return new ExportLogService(repo);
         }
 
+        public CsfaExportService BuildCsfaExportService()
+        {
+            return new CsfaExportService();
+        }
+
+        public CfdaExportService BuildCfdaExportService()
+        {
+            return new CfdaExportService();
+        }
     }
 }

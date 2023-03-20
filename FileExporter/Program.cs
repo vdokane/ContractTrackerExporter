@@ -83,6 +83,8 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
     var contractChangeExportService = businessServiceFactory.BuildContractChangeExportService(useMock);
     var contractChangeAttachmentExportService = businessServiceFactory.BuildContractChangeAttachmentExportService(useMock);
     var exportLogService = businessServiceFactory.BuildExportLogService();
+    var csfaExportService = businessServiceFactory.BuildCsfaExportService();
+    var cfdaExportService = businessServiceFactory.BuildCfdaExportService();
     //Do work starts here
 
 
@@ -97,8 +99,6 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
         return;
     }
 
-    //This should probably come from a config
-     
 
     using (StreamWriter outputFile = new StreamWriter(Path.Combine(docPath, fileName)))
     {
@@ -114,7 +114,20 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
             var contractLine = contractService.BuildContractRow(contractModel);
             outputFile.WriteLine(contractLine);
 
-
+            //Contract Changes
+            var contractChanges = await contractChangeExportService.GetChangesForExport(contractModel.ContractId);
+            foreach (var contractChange in contractChanges)
+            {
+                outputFile.WriteLine(contractChangeExportService.BuildContractChangeRow(contractChange));
+                Console.WriteLine($"Writing change {contractChange.ContractChangeID} to output file! {DateTime.Now.ToString()}");
+                await exportLogService.InsertExportLog(new ExportLogRequestModel()
+                {
+                    ContractNumber = contractModel.ContractNumber,
+                    InsertDate = DateTime.Now,
+                    Step = ExportSteps.Change,
+                    StepDescription = $"Exporting contract change, change id:{contractChange.ContractChangeID}"
+                });
+            }
 
             //Budget
             var allBudgetRecordsForContract = await budgetExportService.GetBudgetModelsByContractId(contractModel.ContractId);
@@ -130,8 +143,6 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
 
 
 
-            //Vendor ...I think this is wrong.. this is part of contract row?
-            //todo query this contract 002Q3
             //WHERE IS SHORT TITLE COMING FROM? LEG-Cons|Legal Services-Consulting
             outputFile.WriteLine(vendorExportService.BuildVendorRow(contractModel));
             Console.WriteLine($"Writing vendor {contractModel.VendorNumber} to output file! {DateTime.Now.ToString()}");
@@ -150,17 +161,34 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
                                                                                     StepDescription = $"Exporting deliverable, deliverable id: {deliverable.DeliverableId}" });
             }
 
+            //CSFA
+            var possibleCsfaRow = csfaExportService.BuildCsfaRow(contractModel);
+            if(!string.IsNullOrEmpty(possibleCsfaRow))
+                {
+                outputFile.WriteLine(possibleCsfaRow);
+                Console.WriteLine($"Writing CSFA {possibleCsfaRow} to output file! {DateTime.Now.ToString()}");
+                await exportLogService.InsertExportLog(new ExportLogRequestModel()
+                {
+                    ContractNumber = contractModel.ContractNumber,
+                    InsertDate = DateTime.Now,
+                    Step = ExportSteps.CSFA,
+                    StepDescription = $"Exporting CSFA, {possibleCsfaRow}"
+                });
+            }
 
-            //Contract Changes
-            var contractChanges = await contractChangeExportService.GetChangesForExport(contractModel.ContractId);
-            foreach (var contractChange in contractChanges)
+            //CFDA
+            var possibleCfdaRow = cfdaExportService.BuildCfdaRow(contractModel);
+            if (!string.IsNullOrEmpty(possibleCsfaRow))
             {
-                outputFile.WriteLine(contractChangeExportService.BuildContractChangeRow(contractChange));
-                Console.WriteLine($"Writing change {contractChange.ContractChangeID} to output file! {DateTime.Now.ToString()}");
-                await exportLogService.InsertExportLog(new ExportLogRequestModel() { ContractNumber = contractModel.ContractNumber, 
-                    InsertDate = DateTime.Now, 
-                    Step = ExportSteps.Change, 
-                    StepDescription = $"Exporting contract change, change id:{contractChange.ContractChangeID}" });
+                outputFile.WriteLine(possibleCsfaRow);
+                Console.WriteLine($"Writing CFDA {possibleCfdaRow} to output file! {DateTime.Now.ToString()}");
+                await exportLogService.InsertExportLog(new ExportLogRequestModel()
+                {
+                    ContractNumber = contractModel.ContractNumber,
+                    InsertDate = DateTime.Now,
+                    Step = ExportSteps.CFDA,
+                    StepDescription = $"Exporting CSFA, {possibleCfdaRow}"
+                });
             }
 
 
@@ -209,12 +237,12 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
 
                 var attachmentIndexModel = new AttachmentIndexModel();
                 attachmentIndexModel.AttachmentType = AttachmentRowConstants.Procurement; //I think?
-                //TODO how do I name deliverables?
+
                 attachmentIndexModel.ShortContractNumber = contractModel.ContractNumber; //How do I get short?
                 attachmentIndexModel.Unknown1 = string.Empty;
                 attachmentIndexModel.Unknown2 = string.Empty;
                 attachmentIndexModel.FileName = procurement.AttachmentFileName; //todo, test
-                attachmentIndexModel.OLO = "22000"; //To I need this
+                attachmentIndexModel.OLO = ScsOlo.OrgCode;
                 allAttachmentDocumentsModel.Add(attachmentIndexModel);
             }
 
@@ -264,7 +292,7 @@ using (IUnitOfWork uow = _uowFactory.BuildUnitOfWork())
                 attachmentIndexModelChangeRedacted.Unknown1 = string.Empty;
                 attachmentIndexModelChangeRedacted.Unknown2 = string.Empty;
                 attachmentIndexModelChangeRedacted.FileName = redactedContractChangeAttachmentDocument.AttachmentFilename; //todo, test
-                attachmentIndexModelChangeRedacted.OLO = "22000"; //To I need this
+                attachmentIndexModelChangeRedacted.OLO = ScsOlo.OrgCode;
                 allAttachmentDocumentsModel.Add(attachmentIndexModelChangeRedacted);
             }
         }
