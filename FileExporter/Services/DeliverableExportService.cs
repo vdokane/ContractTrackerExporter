@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FileExporter.ExportModels;
 using ContractTracker.Repository.EntityModels;
-using FileExporter.Infrastructure;
+using TrackerFile.Infrastructure.Utilities;
 
 namespace FileExporter.Services
 {

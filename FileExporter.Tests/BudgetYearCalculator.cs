@@ -141,7 +141,7 @@ namespace FileExporter.Tests
            // End 4 / 1 / 2027
             //A and B?[Steve Updike] Correct.
 
-            decimal dBug = -1;
+
             DateTime contractStartDate = new DateTime(2023, 4, 1); // 4/1/2023
             DateTime contractEndDate = new DateTime(2027, 4, 1); //7/13/2027
 

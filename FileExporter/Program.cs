@@ -4,9 +4,9 @@ using FileExporter.ExportModels;
 using FileExporter.Factory;
 using FileExporter.Services;
 using System.Text;
- 
-using System.IO.Compression;
-using FileExporter.Infrastructure;
+ using System.IO.Compression;
+using TrackerFile.Infrastructure.Utilities;
+using TrackerFile.Infrastructure.Configuration;
 
 const bool useMock = false;
 DateTime today = new DateTime(2023, 1, 25); //DateTime.Today; //TODO, use param 
@@ -59,7 +59,6 @@ if (File.Exists(Path.Combine(docPath, fileName)))
 }
 if (File.Exists(attachmentPathCompressed))
 {
-
     Console.WriteLine($"About to delete ZIP file that already exists with same name {DateTime.Now}");
     File.Delete(attachmentPathCompressed);
 } 

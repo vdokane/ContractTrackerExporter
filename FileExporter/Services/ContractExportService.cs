@@ -7,7 +7,7 @@ using ContractTracker.Repository.EntityModels;
 using ContractTracker.Repository.Interfaces;
 using ContractTracker.Repository.QueryRepositories;
 using FileExporter.ExportModels;
-using FileExporter.Infrastructure;
+using TrackerFile.Infrastructure.Utilities;
 
 namespace FileExporter.Services
 {

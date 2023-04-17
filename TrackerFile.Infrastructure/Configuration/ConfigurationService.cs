@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration; //Install this from NuGet: Microsoft.Extensions.Configuration and Microsoft.Extensions.Configuration.Json
 
-namespace FileExporter.Infrastructure
+namespace TrackerFile.Infrastructure.Configuration
 {
-    internal class ConfigurationService
+    public class ConfigurationService
     {
         private readonly IConfigurationRoot configuration;
         public ConfigurationService()
@@ -31,9 +31,17 @@ namespace FileExporter.Infrastructure
             return GetSectionGracefully("AattachmentPathCompressed");
         }
 
+        public string GetErrorFilePath()
+        {
+            return GetSectionGracefully("ErorrFilePath");
+        }
+
         private string GetSectionGracefully(string sectionName)
         {
             var section = configuration.GetSection(sectionName);
+            if(section == null)
+                return string.Empty;
+
             return (section.Exists()) ? section.Value : string.Empty;
         }
     }

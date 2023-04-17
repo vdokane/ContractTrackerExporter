@@ -1,6 +1,6 @@
-﻿namespace FileExporter.Infrastructure
+﻿namespace TrackerFile.Infrastructure.Utilities
 {
-    internal class RowConstants
+    public class RowConstants
     {
         public const string Contract = "MAIN";
         public const string Vendor = "VNDR";
@@ -11,26 +11,26 @@
         public const string CFDA = "CFDA";
     }
 
-    internal class SaveConstants
+    public class SaveConstants
     {
         public const string Update = "UPD";
         public const string Insert = "ADD";
         public const string NONE = "NONE";  //When Updating/Adding an existing contract/grant disbursement agreement’s children.
     }
 
-    internal class FieldDelimiter
+    public class FieldDelimiter
     {
         public const char Delimiter = '|';
     }
-    internal class ScsOlo
+    public class ScsOlo
     {
         public const string OrgCode = "22000";
     }
-    internal class Santize
+    public class Santize
     {
         public static List<char> Chars = new List<char>() { '|'};
     }
-    internal class AttachmentRowConstants
+    public class AttachmentRowConstants
     {
         public const string Contract = "CN";
         public const string Procurement = "???";

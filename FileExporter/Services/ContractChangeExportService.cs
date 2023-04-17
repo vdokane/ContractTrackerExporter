@@ -1,7 +1,7 @@
 ﻿using ContractTracker.Repository.EntityModels;
 using ContractTracker.Repository.Interfaces;
 using FileExporter.ExportModels;
-using FileExporter.Infrastructure;
+using TrackerFile.Infrastructure.Utilities;
 using System.Text;
 
 namespace FileExporter.Services
